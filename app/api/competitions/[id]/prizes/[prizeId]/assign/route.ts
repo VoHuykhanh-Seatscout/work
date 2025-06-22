@@ -68,11 +68,13 @@ export async function POST(
     });
 
     return NextResponse.json(result);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Prize assignment error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to assign prize';
+    const statusCode = error instanceof Error && error.message === 'Prize not found' ? 404 : 500;
     return NextResponse.json(
-      { error: error.message || 'Failed to assign prize' },
-      { status: error.message === 'Prize not found' ? 404 : 500 }
+      { error: errorMessage },
+      { status: statusCode }
     );
   }
 }
