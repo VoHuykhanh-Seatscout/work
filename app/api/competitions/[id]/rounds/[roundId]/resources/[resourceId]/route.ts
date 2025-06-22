@@ -5,21 +5,18 @@ import { prisma } from '@/lib/prisma';
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { [key: string]: string | string[] } }
+  context: {
+    params: {
+      id: string;
+      roundId: string;
+      resourceId: string;
+    }
+  }
 ) {
   try {
-    // Type guard to ensure params are strings
-    if (
-      typeof params.id !== 'string' ||
-      typeof params.roundId !== 'string' ||
-      typeof params.resourceId !== 'string'
-    ) {
-      return NextResponse.json(
-        { error: 'Invalid parameters' },
-        { status: 400 }
-      );
-    }
-
+    const { params } = context;
+    
+    // Authentication check
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -27,6 +24,7 @@ export async function DELETE(
 
     const { id: competitionId, roundId, resourceId } = params;
 
+    // Verify the resource belongs to this competition and round
     const resource = await prisma.resource.findFirst({
       where: {
         id: resourceId,
@@ -47,6 +45,7 @@ export async function DELETE(
       );
     }
 
+    // Delete the resource
     await prisma.resource.delete({
       where: { id: resourceId }
     });
