@@ -107,7 +107,7 @@ export async function GET(
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string; roundId: string } }
+  { params }: any
 ) {
   try {
     const { id: competitionId, roundId } = params;
@@ -204,7 +204,7 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string; roundId: string } }
+  { params }: any
 ) {
   try {
     const { id, roundId } = params
