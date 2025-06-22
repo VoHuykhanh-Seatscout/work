@@ -3,21 +3,12 @@ import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-interface RouteParams {
-  params: {
-    id: string;
-    prizeId: string;
-  };
-}
-
 export async function POST(
   request: NextRequest,
-  { params }: { params: { [key: string]: string | string[] } }
+  context: { params: { id: string; prizeId: string } }
 ) {
   try {
-    const competitionId = params.id as string;
-    const prizeId = params.prizeId as string;
-    
+    const { id: competitionId, prizeId } = context.params;
     const { submissionId } = await request.json();
 
     // Validation
