@@ -1,0 +1,439 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                               String                  @id @default(uuid())
+  name                             String
+  email                            String                  @unique
+  password                         String?
+  createdAt                        DateTime                @default(now())
+  updatedAt                        DateTime                @updatedAt
+  resetToken                       String?                 @unique
+  resetTokenExpiry                 DateTime?
+  isVerified                       Boolean                 @default(false)
+  verificationToken                String?
+  profileImage                     String?
+  role                             UserRole                @default(STUDENT)
+  phone                            String?
+  provider                         String?                 @default("credentials")
+  tagline                          String?
+  shortIntroduction                String?
+  onboardingComplete               Boolean                 @default(false)
+  points                           Int                     @default(0)
+  xp                               Int                     @default(0)
+  lastLogin                        DateTime?
+  accounts                         Account[]
+  businessProfile                  BusinessProfile?
+  competitionsOrganized            Competition[]           @relation("CompetitionOrganizer")
+  competitionDrafts                CompetitionDraft[]
+  Message_Message_receiverIdToUser Message[]               @relation("Message_receiverIdToUser")
+  sentMessages                     Message[]               @relation("SentMessages")
+  user1Conversations               Conversation[]          @relation("User1Conversations")
+  user2Conversations               Conversation[]          @relation("User2Conversations")
+  notifications                    NotificationRecipient[]
+  projects                         Project[]
+  registrations                    Registration[]
+  sessions                         Session[]
+  studentProfile                   StudentProfile?
+  submissions                      Submission[]
+  talkshows                        Talkshow[]
+  talkshowRegistrations            TalkshowRegistration[]
+  verificationTokenRelation        VerificationToken?      @relation("UserVerificationToken")
+  competitionsJoined               Competition[]           @relation("CompetitionParticipants")
+
+  @@index([email])
+  @@index([createdAt])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  provider          String
+  providerAccountId String
+  type              String
+  access_token      String?
+  expires_at        Int?
+  id_token          String?
+  scope             String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  sessionToken String   @unique
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model StudentProfile {
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  university     String?
+  degree         String?
+  graduationYear Int?
+  skills         String[]
+  linkedin       String?
+  github         String?
+  resume         String?
+  profileImage   String?
+  aboutMe        String?
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model BusinessProfile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  website   String?
+  industry  String
+  logo      String?
+  bio       String?
+  createdAt DateTime @default(now())
+  email     String
+  linkedin  String?
+  location  String?
+  name      String
+  phone     String
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  userId      String
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Round {
+  id                   String       @id @default(uuid())
+  competitionId        String
+  name                 String
+  description          String?
+  startDate            DateTime
+  endDate              DateTime
+  status               RoundStatus  @default(draft)
+  deliverables         String?
+  submissionRules      Json         @default("{}")
+  evaluation           Json?
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+  criteria             Json?
+  judgingMethod        String?
+  competition          Competition  @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+  nextRoundSubmissions Submission[] @relation("SubmissionNextRound")
+  submissions          Submission[]
+  resources            Resource[]
+
+  @@index([competitionId])
+}
+
+model Resource {
+  id        String   @id @default(cuid())
+  name      String
+  url       String
+  type      String?
+  size      Int?
+  publicId  String?  @map("public_id")
+  roundId   String   @map("round_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  mimeType  String?
+  round     Round    @relation(fields: [roundId], references: [id])
+
+  @@map("resources")
+}
+
+model Submission {
+  id                   String           @id @default(uuid())
+  userId               String
+  roundId              String
+  competitionId        String
+  content              Json
+  submittedAt          DateTime         @default(now())
+  feedback             String?
+  reviewedAt           DateTime?
+  reviewedBy           String?
+  nextRoundId          String?
+  status               SubmissionStatus @default(pending)
+  winningCompetitionId String?          @unique
+  winningPrizeId       String?          @unique
+  advanced             Boolean          @default(false)
+  winningCompetition   Competition?     @relation("CompetitionWinner")
+  winningPrize         Prize?           @relation("PrizeWinner")
+  competition          Competition      @relation("CompetitionSubmissions", fields: [competitionId], references: [id])
+  nextRound            Round?           @relation("SubmissionNextRound", fields: [nextRoundId], references: [id])
+  round                Round            @relation(fields: [roundId], references: [id])
+  user                 User             @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([roundId])
+  @@index([competitionId])
+  @@index([status])
+}
+
+model Competition {
+  id                   String             @id @default(cuid())
+  title                String
+  description          String
+  contactEmail         String
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  organizerId          String
+  endDate              DateTime
+  prize                String
+  rules                String
+  startDate            DateTime
+  categories           String[]
+  coverImage           String?
+  eligibility          String?
+  hashtags             String?
+  judgingCriteria      String?
+  logo                 String?
+  numberOfRounds       Int?
+  organizerDescription String?
+  organizerName        String?
+  socialMediaLinks     Json?              @default("[]")
+  tagline              String?
+  teamSize             Int?
+  website              String?
+  audienceLevel        String?
+  customInviteLink     String?
+  featuredImage        String?
+  participationType    String?
+  phone                String?
+  teamFormation        String?
+  visibility           String?
+  roundDescriptions    Json?              @default("[]")
+  winnerId             String?            @unique
+  publishedAt          DateTime?
+  organizer            User               @relation("CompetitionOrganizer", fields: [organizerId], references: [id])
+  winner               Submission?        @relation("CompetitionWinner", fields: [winnerId], references: [id])
+  drafts               CompetitionDraft[]
+  prizes               Prize[]
+  registrations        Registration[]
+  rounds               Round[]
+  submissions          Submission[]       @relation("CompetitionSubmissions")
+  participants         User[]             @relation("CompetitionParticipants")
+
+  @@index([organizerId])
+  @@index([startDate])
+  @@index([endDate])
+}
+
+model Conversation {
+  id         String    @id @default(cuid())
+  user1      User      @relation("User1Conversations", fields: [user1Id], references: [id])
+  user1Id    String
+  user2      User      @relation("User2Conversations", fields: [user2Id], references: [id])
+  user2Id    String
+  messages   Message[]
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([user1Id, user2Id])
+}
+
+model Message {
+  id           String      @id @default(cuid())
+  conversation Conversation @relation(fields: [conversationId], references: [id])
+  conversationId String
+  sender       User        @relation("SentMessages", fields: [senderId], references: [id])
+  senderId     String
+  receiver     User        @relation("Message_receiverIdToUser", fields: [receiverId], references: [id])
+  receiverId   String
+  content      String
+  createdAt    DateTime    @default(now())
+  seen         Boolean     @default(false)
+}
+
+model Prize {
+  id            String      @id @default(uuid())
+  competitionId String
+  name          String
+  description   String?
+  value         String?
+  position      Int
+  winnerId      String?     @unique
+  competition   Competition @relation(fields: [competitionId], references: [id])
+  winner        Submission? @relation("PrizeWinner", fields: [winnerId], references: [id])
+
+  @@index([competitionId])
+}
+
+model CompetitionDraft {
+  id             String       @id @default(uuid())
+  data           Json
+  currentSection Int
+  lastUpdated    DateTime     @default(now())
+  competitionId  String?
+  userId         String
+  competition    Competition? @relation(fields: [competitionId], references: [id])
+  user           User         @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([competitionId])
+}
+
+model Registration {
+  id            String      @id @default(uuid())
+  userId        String
+  competitionId String
+  createdAt     DateTime    @default(now())
+  competition   Competition @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, competitionId])
+  @@index([createdAt])
+}
+
+model VerificationToken {
+  id      String   @id @default(uuid())
+  token   String   @unique
+  email   String
+  expires DateTime
+  userId  String   @unique
+  user    User     @relation("UserVerificationToken", fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Talkshow {
+  id                        String                 @id @default(uuid())
+  title                     String
+  organizerName             String
+  organizerLogo             String?
+  date                      DateTime
+  time                      String
+  duration                  String                 @default("60")
+  locationType              String                 @default("online")
+  meetingLink               String?
+  venueAddress              String?
+  description               String
+  thumbnail                 String?
+  speakers                  Json                   @default("[]")
+  agenda                    Json                   @default("[]")
+  tags                      String[]
+  audienceType              String                 @default("public")
+  enableQandA               Boolean                @default(true)
+  enablePolls               Boolean                @default(false)
+  allowReactions            Boolean                @default(true)
+  registrationType          String                 @default("open")
+  ticketingType             String                 @default("free")
+  ticketPrice               Float                  @default(0)
+  maxAttendees              Int                    @default(100)
+  registrationDeadline      DateTime
+  confirmationEmailTemplate String?
+  visibility                String                 @default("public")
+  sendReminders             Boolean                @default(true)
+  paymentQrCode             String?
+  organizerId               String
+  createdAt                 DateTime               @default(now())
+  updatedAt                 DateTime               @updatedAt
+  organizer                 User                   @relation(fields: [organizerId], references: [id])
+  registrations             TalkshowRegistration[]
+}
+
+model TalkshowRegistration {
+  id         String   @id @default(uuid())
+  talkshowId String
+  userId     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  status     String   @default("registered")
+  attended   Boolean  @default(false)
+  talkshow   Talkshow @relation(fields: [talkshowId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@unique([talkshowId, userId])
+}
+
+model Event {
+  id                     String    @id @default(cuid())
+  title                  String
+  tagline                String?
+  organizerName          String
+  organizerId            String
+  eventMode              String    @default("in-person")
+  location               String?
+  onlineLink             String?
+  startDate              DateTime
+  endDate                DateTime?
+  startTime              String
+  endTime                String?
+  eventType              String
+  description            String
+  coverImage             String?
+  additionalMedia        String[]
+  eventRulesEnabled      Boolean   @default(false)
+  eventRulesText         String?
+  maxCapacity            Int?
+  speakers               Json?     @default("[]")
+  agenda                 Json?     @default("[]")
+  promotionalBanner      String?
+  socialMediaLinks       String[]
+  eventPoster            String?
+  customRegistrationLink String?
+  emailNotifications     Boolean   @default(true)
+  timezone               String
+  status                 String    @default("draft")
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+}
+
+model Notification {
+  id         String                  @id @default(cuid())
+  type       String
+  title      String
+  message    String
+  link       String?
+  createdAt  DateTime                @default(now())
+  metadata   Json?
+  updatedAt  DateTime                @updatedAt
+  recipients NotificationRecipient[]
+}
+
+model NotificationRecipient {
+  id             String       @id @default(cuid())
+  notificationId String
+  userId         String
+  status         String       @default("UNREAD")
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  notification   Notification @relation(fields: [notificationId], references: [id])
+  user           User         @relation(fields: [userId], references: [id])
+
+  @@unique([notificationId, userId])
+}
+
+enum UserRole {
+  STUDENT
+  BUSINESS
+  ADMIN
+}
+
+enum RoundStatus {
+  draft
+  live
+  completed
+}
+
+enum SubmissionStatus {
+  pending
+  approved
+  rejected
+}
+
+enum ParticipationType {
+  INDIVIDUAL
+  TEAM
+}
