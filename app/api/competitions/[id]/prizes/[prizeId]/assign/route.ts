@@ -12,10 +12,12 @@ interface RouteParams {
 
 export async function POST(
   request: NextRequest,
-  context: RouteParams
+  { params }: { params: { [key: string]: string | string[] } }
 ) {
   try {
-    const { id: competitionId, prizeId } = context.params;
+    const competitionId = params.id as string;
+    const prizeId = params.prizeId as string;
+    
     const { submissionId } = await request.json();
 
     // Validation
