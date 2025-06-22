@@ -1,15 +1,13 @@
-// app/api/competitions/[id]/rounds/[roundId]/resources/[resourceId]/route.ts
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 export async function DELETE(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string; roundId: string; resourceId: string } }
 ) {
   try {
-    // Authentication check
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -17,7 +15,6 @@ export async function DELETE(
 
     const { id: competitionId, roundId, resourceId } = params;
 
-    // Verify the resource belongs to this competition and round
     const resource = await prisma.resource.findFirst({
       where: {
         id: resourceId,
@@ -38,7 +35,6 @@ export async function DELETE(
       );
     }
 
-    // Delete the resource
     await prisma.resource.delete({
       where: { id: resourceId }
     });
