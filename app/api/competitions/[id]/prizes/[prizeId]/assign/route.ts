@@ -4,11 +4,15 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export async function POST(
-  request: NextRequest,
-  context: { params: { id: string; prizeId: string } }
-) {
+  request: NextRequest
+): Promise<NextResponse> {
   try {
-    const { id: competitionId, prizeId } = context.params;
+    // Extract params from the URL
+    const url = new URL(request.url);
+    const pathParts = url.pathname.split('/');
+    const competitionId = pathParts[4]; // [id] position
+    const prizeId = pathParts[6]; // [prizeId] position
+
     const { submissionId } = await request.json();
 
     // Validation
