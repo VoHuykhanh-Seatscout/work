@@ -40,7 +40,7 @@ export async function GET(
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: any
 ) {
   const session = await getServerSession(authOptions)
   if (!session?.user) {
