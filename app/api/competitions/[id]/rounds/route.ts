@@ -5,7 +5,7 @@ import { getServerSession } from 'next-auth'
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: any
 ) {
   try {
     // First verify the competition exists

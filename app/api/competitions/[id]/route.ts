@@ -52,7 +52,7 @@ type PrizeWithRelations = Prize & {
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: any
 ) {
   // Add early check for prisma
   if (!prisma) {
