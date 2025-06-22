@@ -21,7 +21,7 @@ const ALLOWED_MIME_TYPES = [
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string; roundId: string } }
+  { params }: any
 ) {
   try {
     // Authentication check
