@@ -1,15 +1,17 @@
-// api/competitions/[id]/prizes/[prizeId]/assign/route.ts
-import { prisma } from '@/lib/prisma'
-import { NextResponse } from 'next/server'
+// app/api/competitions/[id]/prizes/[prizeId]/assign/route.ts
+import { prisma } from '@/lib/prisma';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 export async function POST(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string; prizeId: string } }
 ) {
   try {
     const { id: competitionId, prizeId } = params;
     const { submissionId } = await request.json();
 
+    // Validation
     if (!prizeId || !submissionId) {
       return NextResponse.json(
         { error: 'Prize ID and Submission ID are required' },
@@ -17,73 +19,48 @@ export async function POST(
       );
     }
 
-    // Verify the prize exists and is available
-    const prize = await prisma.prize.findUnique({
-      where: { id: prizeId }
-    });
-
-    if (!prize) {
-      return NextResponse.json(
-        { error: 'Prize not found' },
-        { status: 404 }
-      );
-    }
-
-    if (prize.winnerId) {
-      return NextResponse.json(
-        { error: 'This prize has already been awarded' },
-        { status: 400 }
-      );
-    }
-
-    // Verify the submission exists
-    const submission = await prisma.submission.findUnique({
-      where: { id: submissionId },
-      include: { user: true }
-    });
-
-    if (!submission) {
-      return NextResponse.json(
-        { error: 'Submission not found' },
-        { status: 404 }
-      );
-    }
-
-    // Start a transaction to ensure data consistency
-    const result = await prisma.$transaction(async (prisma) => {
-      // Update the prize with the winner
-      const updatedPrize = await prisma.prize.update({
+    // Transaction for atomic operations
+    const result = await prisma.$transaction(async (tx) => {
+      // 1. Verify and lock the prize
+      const prize = await tx.prize.findUnique({
         where: { id: prizeId },
-        data: {
-          winnerId: submissionId
-        }
+        select: { winnerId: true, position: true }
       });
 
-      // Update the submission with the winning prize
-      await prisma.submission.update({
+      if (!prize) throw new Error('Prize not found');
+      if (prize.winnerId) throw new Error('Prize already awarded');
+
+      // 2. Verify submission
+      const submission = await tx.submission.findUnique({
         where: { id: submissionId },
-        data: {
-          winningPrizeId: prizeId
-        }
+        select: { userId: true }
+      });
+      if (!submission) throw new Error('Submission not found');
+
+      // 3. Update prize
+      const updatedPrize = await tx.prize.update({
+        where: { id: prizeId },
+        data: { winnerId: submissionId },
+        select: { id: true, winnerId: true }
       });
 
-      // Add points to the user
-      await prisma.user.update({
+      // 4. Update submission
+      await tx.submission.update({
+        where: { id: submissionId },
+        data: { winningPrizeId: prizeId }
+      });
+
+      // 5. Award points
+      await tx.user.update({
         where: { id: submission.userId },
-        data: {
-          points: {
-            increment: 50 // Adjust points as needed
-          }
-        }
+        data: { points: { increment: 50 } }
       });
 
-      // If this is the first prize, set as competition winner
+      // 6. If first prize, set competition winner
       if (prize.position === 1) {
-        await prisma.competition.update({
+        await tx.competition.update({
           where: { id: competitionId },
-          data: {
-            winnerId: submissionId
-          }
+          data: { winnerId: submissionId }
         });
       }
 
@@ -91,11 +68,11 @@ export async function POST(
     });
 
     return NextResponse.json(result);
-  } catch (error) {
-    console.error('Error assigning prize:', error);
+  } catch (error: any) {
+    console.error('Prize assignment error:', error);
     return NextResponse.json(
-      { error: 'Failed to assign prize' },
-      { status: 500 }
+      { error: error.message || 'Failed to assign prize' },
+      { status: error.message === 'Prize not found' ? 404 : 500 }
     );
   }
 }
