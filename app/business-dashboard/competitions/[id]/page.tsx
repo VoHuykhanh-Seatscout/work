@@ -11,11 +11,7 @@ async function getCompetition(id: string): Promise<CompetitionDetails> {
   return res.json();
 }
 
-interface PageProps {
-  params: { id: string };
-}
-
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
   const competition = await getCompetition(params.id);
 
