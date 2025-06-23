@@ -16,7 +16,7 @@ interface RegistrationWithUser {
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: any
 ) {
   try {
     const id = params.id;
@@ -110,7 +110,7 @@ export async function GET(
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: any
 ) {
   try {
     const id = params.id;

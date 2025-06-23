@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 
 export async function GET(
   request: Request,
-  { params }: { params: { conversationId: string } }
+  { params }: any
 ) {
   try {
     const session = await getServerSession(authOptions);

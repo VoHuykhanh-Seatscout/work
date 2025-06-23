@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(
   request: Request,
-  { params }: { params: { roundId: string } }
+  { params }: any
 ) {
   try {
     // Create a proper request object for getServerSession
