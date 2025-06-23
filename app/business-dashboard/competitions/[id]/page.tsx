@@ -10,7 +10,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Award, Calendar, Users, FileText, Sparkles, Trophy } from "lucide-react";
-import { m as motion } from "framer-motion"
+import { motion } from "framer-motion";
 import { 
   FiAward, 
   FiArrowLeft,
@@ -29,7 +29,7 @@ interface PageProps {
 
 async function getCompetition(id: string): Promise<CompetitionDetails> {
   const res = await fetch(`http://localhost:3000/api/competitions/${id}?includeRounds=true&includeWinners=true`, {
-    next: { revalidate: 60 } // Revalidate every 60 seconds
+    next: { revalidate: 60 }
   });
   if (!res.ok) throw new Error('Failed to fetch competition');
   return res.json();
@@ -37,7 +37,9 @@ async function getCompetition(id: string): Promise<CompetitionDetails> {
 
 export default async function CompetitionDetailPage({
   params
-}: PageProps) {
+}: {
+  params: { id: string }
+}) {
   const session = await getServerSession(authOptions);
   const competition = await getCompetition(params.id);
   const isOrganizer = session?.user?.id === competition.organizer.id;
