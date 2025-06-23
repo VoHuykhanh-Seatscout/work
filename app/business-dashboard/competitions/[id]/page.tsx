@@ -28,32 +28,36 @@ const brandColors = {
   success: "#30D158",
 };
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-  searchParams?: Record<string, string | string[] | undefined>;
-}
-
-export default function CompetitionDetailPage({ params }: PageProps) {
+export default function CompetitionDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const router = useRouter();
-  const { data: session } = useSession();
   const [competition, setCompetition] = useState<CompetitionDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isOrganizer, setIsOrganizer] = useState(false);
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchCompetition = async () => {
       try {
-        const response = await fetch(`/api/competitions/${params.id}?includeRounds=true&includeWinners=true`);
-        if (!response.ok) throw new Error("Failed to fetch competition");
+        const competitionId = params.id;
+        if (!competitionId) {
+          throw new Error('Competition ID is missing');
+        }
 
+        const response = await fetch(`/api/competitions/${competitionId}?includeRounds=true&includeWinners=true`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch competition');
+        }
         const data = await response.json();
         setCompetition(data);
+        
         setIsOrganizer(session?.user?.id === data.organizer.id);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Unknown error");
+        setError(err instanceof Error ? err.message : 'Unknown error');
       } finally {
         setLoading(false);
       }
@@ -86,7 +90,7 @@ export default function CompetitionDetailPage({ params }: PageProps) {
         <div className="flex-1 p-6 md:p-8">
           <div className="p-6 rounded-xl mb-6 flex items-start bg-error/10 border-l-4 border-error">
             <div className="flex-shrink-0 mt-1 text-error">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
