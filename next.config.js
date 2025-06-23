@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ['framer-motion'], // Force transpilation
+  experimental: {
+    esmExternals: 'loose' // Bypass ESM issues
+  },
   reactStrictMode: true,
   // Recommended to use publicRuntimeConfig for client-side accessible env vars
   publicRuntimeConfig: {
