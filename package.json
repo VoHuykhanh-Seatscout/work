@@ -43,7 +43,7 @@
     "date-fns": "^4.1.0",
     "express-rate-limit": "^7.5.0",
     "formidable": "^3.5.2",
-    "framer-motion": "^12.16.0",
+    "framer-motion": "^12.18.1",
     "gopd": "^1.2.0",
     "highlight.js": "^11.11.1",
     "jiti": "^2.4.2",
