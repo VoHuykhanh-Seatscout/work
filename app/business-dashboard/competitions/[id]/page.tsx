@@ -28,11 +28,14 @@ const brandColors = {
   success: "#30D158",
 };
 
-export default function CompetitionDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+interface PageProps {
+  params: {
+    id: string;
+  };
+  searchParams?: Record<string, string | string[] | undefined>;
+}
+
+export default function CompetitionDetailPage({ params }: PageProps) {
   const router = useRouter();
   const [competition, setCompetition] = useState<CompetitionDetails | null>(null);
   const [loading, setLoading] = useState(true);
