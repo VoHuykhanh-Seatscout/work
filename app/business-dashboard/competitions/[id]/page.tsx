@@ -12,12 +12,12 @@ async function getCompetition(id: string): Promise<CompetitionDetails> {
 }
 
 // Explicitly type the Page function props
-interface PageProps {
+interface CompetitionPageProps {
   params: { id: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default async function Page({ params, searchParams }: PageProps) {
+export default async function Page({ params, searchParams }: CompetitionPageProps) {
   const session = await getServerSession(authOptions);
   const competition = await getCompetition(params.id);
 
