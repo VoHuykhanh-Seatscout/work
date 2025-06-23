@@ -1,22 +1,21 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { FiArrowLeft, FiShare2, FiDownload, FiAward, FiUsers, FiEdit, FiEye, FiGrid, FiCalendar, FiClock, FiLock, FiSearch } from "react-icons/fi";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { CompetitionDetails } from "@/types/competition";
+import BusinessSidebar from "@/components/BusinessSidebar";
 import OverviewSection from './components/OverviewSection';
 import RoundsSection from './components/RoundsSection';
 import SubmissionsSection from './components/SubmissionsSection';
 import ParticipantsSection from './components/ParticipantsSection';
 import HeroSection from './components/HeroSection';
-import { useRouter } from "next/navigation";
-import { format } from "date-fns";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { useSession } from "next-auth/react";
-import { CompetitionDetails } from "@/types/competition";
-import BusinessSidebar from "@/components/BusinessSidebar";
-import { Award, Calendar, Sword, ChevronRight, Trophy, Mic, Users, FileText, Sparkles } from "lucide-react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Award, Calendar, Users, FileText, Sparkles, Trophy } from "lucide-react";
+import { motion } from "framer-motion";
+import { 
+  FiAward, 
+  FiArrowLeft,
+  FiGrid,
+  FiUsers
+} from "react-icons/fi";
 
 const brandColors = {
   primary: "#D84315",
@@ -28,87 +27,22 @@ const brandColors = {
   success: "#30D158",
 };
 
-export default function CompetitionDetailPage({
+async function getCompetition(id: string): Promise<CompetitionDetails> {
+  const res = await fetch(`http://localhost:3000/api/competitions/${id}?includeRounds=true&includeWinners=true`, {
+    next: { revalidate: 60 } // Revalidate every 60 seconds
+  });
+  if (!res.ok) throw new Error('Failed to fetch competition');
+  return res.json();
+}
+
+export default async function CompetitionDetailPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const router = useRouter();
-  const [competition, setCompetition] = useState<CompetitionDetails | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [isOrganizer, setIsOrganizer] = useState(false);
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    const fetchCompetition = async () => {
-      try {
-        const competitionId = params.id;
-        if (!competitionId) {
-          throw new Error('Competition ID is missing');
-        }
-
-        const response = await fetch(`/api/competitions/${competitionId}?includeRounds=true&includeWinners=true`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch competition');
-        }
-        const data = await response.json();
-        setCompetition(data);
-        
-        setIsOrganizer(session?.user?.id === data.organizer.id);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCompetition();
-  }, [params.id, session?.user?.id]);
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen bg-offWhite">
-        <BusinessSidebar />
-        <div className="flex-1 p-6 md:p-8">
-          <div className="flex flex-col items-center justify-center h-64 rounded-xl bg-white/80 backdrop-blur-sm shadow-soft">
-            <div className="relative w-16 h-16 mb-4">
-              <div className="absolute inset-0 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
-              <div className="absolute inset-2 rounded-full border-4 border-accent border-b-transparent animate-spin animation-delay-150"></div>
-            </div>
-            <p className="text-medium font-medium">Gathering your quest details...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !competition) {
-    return (
-      <div className="flex min-h-screen bg-offWhite">
-        <BusinessSidebar />
-        <div className="flex-1 p-6 md:p-8">
-          <div className="p-6 rounded-xl mb-6 flex items-start bg-error/10 border-l-4 border-error">
-            <div className="flex-shrink-0 mt-1 text-error">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div className="ml-4">
-              <h3 className="text-lg font-medium text-dark">Error loading quest</h3>
-              <p className="text-medium">{error || "Competition not found"}</p>
-              <button 
-                className="mt-3 px-4 py-1.5 text-sm rounded-lg font-medium bg-error/20 text-dark"
-                onClick={() => window.location.reload()}
-              >
-                Retry
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const session = await getServerSession(authOptions);
+  const competition = await getCompetition(params.id);
+  const isOrganizer = session?.user?.id === competition.organizer.id;
 
   const getStatusBadge = () => {
     const now = new Date();
@@ -136,7 +70,6 @@ export default function CompetitionDetailPage({
         {/* Back navigation */}
         <div className="mb-6">
           <motion.button
-            onClick={() => router.back()}
             whileHover={{ x: -4 }}
             whileTap={{ scale: 0.98 }}
             className="flex items-center gap-2 text-sm font-medium group"
