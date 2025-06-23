@@ -4,7 +4,6 @@ const nextConfig = {
   transpilePackages: ['framer-motion'], // Add this line
   experimental: {
     esmExternals: 'loose', // Add this line
-    serverComponentsExternalPackages: ['framer-motion'] // Add this line
   },
   env: {
     NEXTAUTH_URL: process.env.NEXTAUTH_URL || 'http://localhost:3000',
