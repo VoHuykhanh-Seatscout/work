@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label"
 import { RoundWithRelations } from "@/types/round"
 import { PencilRuler, Calendar, Eye, EyeOff, Clock, Palette, Award, Sparkles, Lightbulb, Rocket, Layers, Brush, Wand2, PaintBucket, Trophy, Users, Zap, BookOpen } from 'lucide-react'
 import { format } from 'date-fns'
-import { motion } from "framer-motion"
+import { m as motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge"
 
 export interface RoundInfoTabProps {

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { FiCalendar, FiMail, FiGlobe, FiMessageSquare, FiUser, FiAward, FiBook, FiClock, FiUsers } from "react-icons/fi";
 interface TabNavigationProps {
   activeTab: string;

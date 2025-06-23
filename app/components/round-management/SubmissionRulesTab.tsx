@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RoundWithRelations } from "@/types/round"
 import { Badge } from "@/components/ui/badge"
 import { X, File, Link2, Clock, Zap, AlertCircle, Palette, Image, FileArchive, Wand2, PencilRuler, Sparkles } from "lucide-react"
-import { motion } from "framer-motion"
+import { m as motion } from "framer-motion";
 
 const brandColors = {
   primary: "#D84315",     // Deep orange

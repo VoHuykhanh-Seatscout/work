@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from "react";
 import Modal from "../../modal";

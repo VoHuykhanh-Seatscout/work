@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { FiAward } from "react-icons/fi";
 import { brandColors } from "@/constants/colors";
 

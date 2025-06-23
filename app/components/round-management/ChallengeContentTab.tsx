@@ -9,7 +9,7 @@ import { Lightbulb, FileText, UploadCloud, Sparkles, BookOpen, Wand2, PencilRule
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast"
 import type { RoundWithRelations } from '@/types/round';
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 
 const brandColors = {

@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import { formatDistanceToNow, differenceInDays } from "date-fns";
-import { motion, AnimatePresence } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { PlusIcon, SearchIcon, ChevronDownIcon, UserCircleIcon, PencilIcon, EyeIcon, AlertCircleIcon } from "lucide-react";
 import { Listbox } from '@headlessui/react'
 import { Tooltip } from '@nextui-org/react';

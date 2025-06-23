@@ -6,7 +6,7 @@ import { RoundWithRelations } from "@/types/round"
 import { RubricCreator } from "@/components/rubric-creator"
 import { JudgeAssignment } from "@/components/judge-assignment"
 import { Award, Gauge, Users, Scale, Sparkles, Wand2, Zap, BookOpen, ClipboardList, UserCog, Weight, ListChecks, Star, BadgePercent, Lightbulb, Info } from "lucide-react"
-import { motion } from "framer-motion"
+import { m as motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 

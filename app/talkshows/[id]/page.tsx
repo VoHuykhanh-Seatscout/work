@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { formatDistanceToNow, format } from "date-fns";
 import Navbar from "@/components/Navbar";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import { FiCalendar, FiMail, FiGlobe, FiArrowLeft, FiMessageSquare, FiUser, FiAward, FiBook, FiClock, FiUsers, FiShare2, FiMic, FiArrowRight, FiMapPin, FiVideo } from "react-icons/fi";

@@ -9,7 +9,7 @@ import { Calendar, Clock, File, FileUp, Link as LinkIcon, Sparkles, Award, Zap, 
 import { format } from "date-fns"
 import { RoundWithRelations } from "@/types/round"
 import { MarkdownPreview } from "@/components/ui/markdown-preview"
-import { motion } from "framer-motion"
+import { m as motion } from "framer-motion";
 
 const brandColors = {
   primary: "#D84315",     // Deep orange

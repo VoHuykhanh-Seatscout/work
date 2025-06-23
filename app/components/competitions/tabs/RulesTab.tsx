@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { brandColors } from "@/constants/colors";
 import { FiAward, FiUsers, FiBookOpen, FiAlertCircle } from "react-icons/fi";
 

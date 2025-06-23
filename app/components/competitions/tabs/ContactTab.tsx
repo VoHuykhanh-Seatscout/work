@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { FiMail, FiGlobe, FiMessageSquare, FiPhone, FiUser } from "react-icons/fi";
 import { FaRegHandshake } from "react-icons/fa";
 
