@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  typescript: {
+    ignoreBuildErrors: false, // Set to true temporarily if needed
+  },
   transpilePackages: ['framer-motion'], // Force transpilation
   experimental: {
     esmExternals: 'loose' // Bypass ESM issues

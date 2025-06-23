@@ -1,4 +1,3 @@
-// app/business-dashboard/competitions/[id]/page.tsx
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { CompetitionDetails } from "@/types/competition";
@@ -12,6 +11,7 @@ async function getCompetition(id: string): Promise<CompetitionDetails> {
   return res.json();
 }
 
+// Option 1: Simple inline typing
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
   const competition = await getCompetition(params.id);
