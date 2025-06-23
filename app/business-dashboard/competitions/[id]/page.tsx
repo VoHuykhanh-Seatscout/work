@@ -1,3 +1,5 @@
+"use client";
+
 import { CompetitionDetails } from "@/types/competition";
 import BusinessSidebar from "@/components/BusinessSidebar";
 import OverviewSection from './components/OverviewSection';
