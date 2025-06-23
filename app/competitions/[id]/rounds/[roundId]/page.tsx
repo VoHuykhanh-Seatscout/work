@@ -13,6 +13,12 @@ import { authOptions } from '@/lib/auth';
 import SubmitWorkForm from '@/components/SubmitWorkForm';
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
+import type { PageProps as NextPageProps } from 'next'; // Renamed import
+
+type Params = {
+  id: string;
+  roundId: string;
+};
 
 interface ResourceItem {
   id: string;
@@ -56,18 +62,23 @@ interface RoundDetails {
   }[];
 }
 
-export default async function RoundDetailsPage({ 
-  params 
-}: { 
-  params: { id: string; roundId: string } 
-}) {
+interface RoundPageProps {
+  params: {
+    id: string;
+    roundId: string;
+  };
+  searchParams?: Record<string, string | string[] | undefined>;
+}
+
+// Update the component to use the correct props
+const RoundDetailsPage = async ({ params }: { params: RoundPageProps['params'] }) => {
   const { id, roundId } = params;
+  
   const cookieStore = cookies();
-  
   const session = await getServerSession(authOptions);
-  
+
   if (!session?.user) {
-    return redirect('/auth/signin');
+    redirect('/auth/signin');
   }
 
   let round: RoundDetails;
@@ -557,4 +568,6 @@ export default async function RoundDetailsPage({
       </div>
     </div>
   );
-}
+};
+
+export default RoundDetailsPage;

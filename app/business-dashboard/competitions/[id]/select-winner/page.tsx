@@ -8,12 +8,6 @@ import { SelectWinnerForm } from './select-winner-form'
 import { SubmissionStatus } from '@prisma/client'
 
 
-interface PageProps {
- params: { id: string }
- searchParams: { [key: string]: string | string[] | undefined }
-}
-
-
 type SubmissionWithWinnerInfo = {
  id: string
  userId: string
@@ -62,79 +56,41 @@ type SubmissionWithWinnerInfo = {
 }
 
 
-export default async function SelectWinnerPage({ params, searchParams }: PageProps) {
- // Await params and searchParams
- const [awaitedParams, awaitedSearchParams] = await Promise.all([params, searchParams]);
-  const id = awaitedParams.id;
- const submissionId = awaitedSearchParams.submissionId
-   ? Array.isArray(awaitedSearchParams.submissionId)
-     ? awaitedSearchParams.submissionId[0]
-     : awaitedSearchParams.submissionId
-   : undefined;
+export default async function SelectWinnerPage(props: any) {
+  const { params, searchParams } = props as {
+    params: { id: string }
+    searchParams?: { submissionId?: string | string[] }
+  }
 
+  const id = params.id;
+  const submissionId = searchParams?.submissionId
+    ? Array.isArray(searchParams.submissionId)
+      ? searchParams.submissionId[0]
+      : searchParams.submissionId
+    : undefined;
 
- if (!id) {
-   return notFound()
- }
+  if (!id) return notFound();
 
+  try {
+    const competition = await prisma.competition.findUnique({
+      where: { id },
+      include: {
+        rounds: { orderBy: { endDate: 'asc' }, select: { id: true, endDate: true } },
+        submissions: {
+          where: { status: SubmissionStatus.approved },
+          include: {
+            user: { select: { id: true, name: true, email: true, profileImage: true } },
+            winningPrize: true,
+            round: { select: { id: true } },
+            competition: { select: { id: true, title: true } },
+            nextRound: { select: { id: true } }
+          }
+        },
+        prizes: { orderBy: { position: 'asc' } }
+      }
+    });
 
- try {
-   const competition = await prisma.competition.findUnique({
- where: { id },
- include: {
-   rounds: {
-     orderBy: { endDate: 'asc' }, // Assuming rounds are ordered by date
-     select: {
-       id: true,
-       endDate: true
-     }
-   },
-   submissions: {
-     where: {
-       status: SubmissionStatus.approved,
-       // Only include submissions from the final round
-       roundId: {
-         // This will be set after we determine the final round
-       }
-     },
-     include: {
-       user: {
-         select: {
-           id: true,
-           name: true,
-           email: true,
-           profileImage: true
-         }
-       },
-       winningPrize: true,
-       round: {
-         select: {
-           id: true
-         }
-       },
-       competition: {
-         select: {
-           id: true,
-           title: true
-         }
-       },
-       nextRound: {
-         select: {
-           id: true
-         }
-       }
-     }
-   },
-   prizes: {
-     orderBy: { position: 'asc' }
-   }
- }
-})
-
-
-if (!competition) {
- return notFound()
-}
+    if (!competition) return notFound();
 
 
 // Determine the final round (last in the ordered list)

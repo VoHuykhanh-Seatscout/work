@@ -1,11 +1,9 @@
 import ConversationView from "@/business-dashboard/message/components/ConversationView";
 
-interface PageProps {
-  params: {
-    conversationId: string;  // Change to 'conversationId'
+// Solution 1: Use type assertion (most reliable)
+export default function Page(props: any) {
+  const { params } = props as {
+    params: { conversationId: string }
   };
-}
-
-export default function Page({ params }: PageProps) {
   return <ConversationView conversationId={params.conversationId} />;
 }

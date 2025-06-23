@@ -4,9 +4,6 @@ const nextConfig = {
     ignoreBuildErrors: false, // Set to true temporarily if needed
   },
   transpilePackages: ['framer-motion'], // Force transpilation
-  experimental: {
-    esmExternals: 'loose' // Bypass ESM issues
-  },
   reactStrictMode: true,
   // Recommended to use publicRuntimeConfig for client-side accessible env vars
   publicRuntimeConfig: {
