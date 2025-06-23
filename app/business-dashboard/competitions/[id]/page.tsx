@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FiArrowLeft, FiShare2, FiDownload, FiAward, FiUsers, FiEdit, FiEye, FiGrid, FiCalendar, FiClock, FiLock, FiSearch } from "react-icons/fi";
