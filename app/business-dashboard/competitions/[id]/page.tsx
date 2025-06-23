@@ -35,11 +35,9 @@ async function getCompetition(id: string): Promise<CompetitionDetails> {
   return res.json();
 }
 
-export default async function CompetitionDetailPage({
-  params
-}: {
-  params: { id: string }
-}) {
+export default async function CompetitionDetailPage(
+  { params }: any
+) {
   const session = await getServerSession(authOptions);
   const competition = await getCompetition(params.id);
   const isOrganizer = session?.user?.id === competition.organizer.id;
