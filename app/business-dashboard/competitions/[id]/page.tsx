@@ -11,7 +11,14 @@ async function getCompetition(id: string): Promise<CompetitionDetails> {
   return res.json();
 }
 
-export default async function Page({ params }: { params: { id: string } }) {
+// Solution 1: Use inline typing with searchParams
+export default async function Page({
+  params,
+  searchParams
+}: {
+  params: { id: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const session = await getServerSession(authOptions);
   const competition = await getCompetition(params.id);
 
