@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  transpilePackages: ['framer-motion'], // Add this line
+  experimental: {
+    esmExternals: 'loose', // Add this line
+    serverComponentsExternalPackages: ['framer-motion'] // Add this line
+  },
   env: {
     NEXTAUTH_URL: process.env.NEXTAUTH_URL || 'http://localhost:3000',
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
@@ -11,15 +16,15 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: "lh3.googleusercontent.com", // Google profile pictures
+        hostname: "lh3.googleusercontent.com",
       },
       {
         protocol: 'https',
-        hostname: "example.com", // Competition images
+        hostname: "example.com",
       },
       {
         protocol: 'https',
-        hostname: "**", // Allow all external images (optional but not recommended)
+        hostname: "**",
       },
     ],
   },
