@@ -18,12 +18,6 @@ import { CompetitionDetails } from "@/types/competition";
 import BusinessSidebar from "@/components/BusinessSidebar";
 import { Award, Calendar, Sword, ChevronRight, Trophy, Mic, Users, FileText, Sparkles } from "lucide-react";
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
 const brandColors = {
   primary: "#D84315",
   secondary: "#FF5722",
@@ -34,7 +28,11 @@ const brandColors = {
   success: "#30D158",
 };
 
-export default function CompetitionDetailPage({ params }: PageProps) {
+export default function CompetitionDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const router = useRouter();
   const [competition, setCompetition] = useState<CompetitionDetails | null>(null);
   const [loading, setLoading] = useState(true);
