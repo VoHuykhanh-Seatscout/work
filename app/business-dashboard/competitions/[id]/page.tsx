@@ -10,7 +10,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Award, Calendar, Users, FileText, Sparkles, Trophy } from "lucide-react";
-import { m as motion } from "framer-motion";
+import { m as motion } from "framer-motion"
 import { 
   FiAward, 
   FiArrowLeft,
@@ -18,14 +18,13 @@ import {
   FiUsers
 } from "react-icons/fi";
 
-const brandColors = {
-  primary: "#D84315",
-  secondary: "#FF5722",
-  accent: "#FF7043",
-  dark: "#212121",
-  light: "#FFF3E0",
-  creative: "#8A2BE2",
-  success: "#30D158",
+interface PageProps {
+  params: {
+    id: string
+  }
+  searchParams?: {
+    [key: string]: string | string[] | undefined
+  }
 };
 
 async function getCompetition(id: string): Promise<CompetitionDetails> {
@@ -37,10 +36,8 @@ async function getCompetition(id: string): Promise<CompetitionDetails> {
 }
 
 export default async function CompetitionDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+  params
+}: PageProps) {
   const session = await getServerSession(authOptions);
   const competition = await getCompetition(params.id);
   const isOrganizer = session?.user?.id === competition.organizer.id;
