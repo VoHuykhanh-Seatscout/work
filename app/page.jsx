@@ -146,145 +146,71 @@ export default function Home() {
 
       <Navbar />
 
-      {/* Hero Section - Adjusted for better alignment */}
-      <section className="relative overflow-hidden pt-[1.5rem] min-h-[calc(90vh-4.5rem)]">
-        {/* Enhanced Background with Persistent Glow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1e145e] via-[#2a1b7a] to-[#3d28a8] overflow-hidden">
-          {/* Persistent Glow Animation */}
-          <motion.div 
-            className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-purple-400/10"
-            initial={{ opacity: 0 }}
-            animate={{ 
-              opacity: [0.1, 0.2, 0.1],
-              backgroundPosition: ['0% 0%', '100% 100%', '0% 0%']
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          />
-          
-          {/* Animated Grid Pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0 bg-[length:40px_40px] bg-[linear-gradient(to_right,rgba(255,255,255,0.3)_1px,transparent_0.5px),linear-gradient(to_bottom,rgba(255,255,255,0.3)_1px,transparent_1px)]"></div>
-          </div>
-          
-          {/* Floating Particles */}
-          {[...Array(40)].map((_, i) => (
+      {/* Simplified Hero Section */}
+      <section className="relative min-h-[90vh] bg-gradient-to-br from-[#1e145e] via-[#2a1b7a] to-[#3d28a8] overflow-hidden">
+        {/* Background Glow */}
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-purple-400/10"
+          animate={{ opacity: [0.1, 0.2] }}
+          transition={{ duration: 15, repeat: Infinity }}
+        />
+      
+        {/* Content Container */}
+        <div className="relative max-w-7xl mx-auto px-4 h-full flex flex-col lg:flex-row items-center">
+          {/* Text Content - Left Side */}
+          <div className="lg:w-1/2 py-16 lg:py-24">
             <motion.div
-              key={i}
-              className="absolute rounded-full bg-white/10"
-              style={{
-                width: `${Math.random() * 8 + 2}px`,
-                height: `${Math.random() * 8 + 2}px`,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                x: [0, (Math.random() - 0.5) * 60],
-                y: [0, (Math.random() - 0.5) * 60],
-                opacity: [0.1, 0.3, 0.1],
-              }}
-              transition={{
-                duration: Math.random() * 30 + 15,
-                repeat: Infinity,
-                repeatType: "reverse",
-                ease: "easeInOut",
-                delay: Math.random() * 10
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Content Container - Aligned with Navbar */}
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col lg:flex-row items-center justify-between gap-0">
-          {/* Text Column */}
-          <div className="lg:w-1/2 text-left py-12 lg:py-24">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: [0.2, 1, 0.2, 1] }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              <h1 className="text-4xl sm:text-12xl md:text-[3.5rem] lg:text-[4.5rem] xl:text-[5.5rem] font-extrabold text-white leading-[1.1] mb-6 tracking-tight">
-                <span className="block whitespace-nowrap">Win Challenges.</span>
-                <span className="block whitespace-nowrap">Build Skills.</span>
-                <span className="block whitespace-nowrap">Get Noticed.</span>
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
+                Win Challenges.<br />
+                Build Skills.<br />
+                Get Noticed.
               </h1>
               
-              <motion.p 
-                className="text-lg sm:text-xl lg:text-2xl text-white/80 max-w-xl leading-relaxed mb-12"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              >
+              <p className="text-xl text-white/80 mb-8 max-w-lg">
                 A launchpad for ambitious students to win real challenges, earn rewards, and get hired.
-              </motion.p>
+              </p>
               
-              <motion.div 
-                className="flex flex-col sm:flex-row gap-4 md:gap-6"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-              >
+              <div className="flex flex-wrap gap-4">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-3 text-lg"
+                  className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-4 rounded-xl shadow-lg"
                 >
-                  <span className="text-xl">🚀</span> Start Competing
+                  🚀 Start Competing
                 </motion.button>
                 
                 <motion.button
-                  whileHover={{ 
-                    scale: 1.05,
-                    backgroundColor: "#a855f7"
-                  }}
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-purple-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-purple-500 transition-all flex items-center gap-3 text-lg shadow-lg hover:shadow-xl"
+                  className="bg-white/10 text-white font-bold px-8 py-4 rounded-xl border border-white/20"
                 >
-                  <span className="text-xl">🎨</span> View Leaderboard
+                  🎨 View Leaderboard
                 </motion.button>
-              </motion.div>
+              </div>
             </motion.div>
           </div>
-          
-          {/* Illustration Column */}
-          <motion.div 
-            className="lg:w-1/2 flex items-center justify-center lg:justify-end h-full"
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.2, 1, 0.2, 1] }}
-          >
-            <div className="relative w-full max-w-[850px] h-[80vh] min-h-[600px]">
-              <Image 
-                src="/path58.png" 
-                alt="Student competing with laptop" 
+      
+          {/* Illustration - Right Side */}
+          <div className="lg:w-1/2 flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-xl h-[60vh]">
+              <Image
+                src="/path58.svg"
+                alt="Student competing"
                 fill
-                className="object-contain object-right drop-shadow-2xl"
+                className="object-contain object-right"
                 priority
               />
-              {/* Persistent Glow Effect */}
-              <motion.div 
-                className="absolute inset-0 -left-20 bg-purple-500/20 rounded-full blur-3xl -z-10"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0.1, 0.2, 0.1] }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
+              <div className="absolute inset-0 bg-purple-500/20 rounded-full blur-2xl -z-10" />
             </div>
-          </motion.div>
+          </div>
         </div>
-
+      
         {/* Bottom Gradient */}
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#1e145e]/80 to-transparent -z-10"></div>
+        <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-[#1e145e]/80 to-transparent" />
       </section>
 
       {/* How It Works Section - Enhanced with Brand Colors */}
