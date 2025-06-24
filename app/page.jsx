@@ -262,7 +262,7 @@ export default function Home() {
           >
             <div className="relative w-full max-w-[850px] h-[80vh] min-h-[600px]">
               <Image 
-                src="/path58.svg" 
+                src="/path58.png" 
                 alt="Student competing with laptop" 
                 fill
                 className="object-contain object-right drop-shadow-2xl"
