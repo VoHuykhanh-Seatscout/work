@@ -8,10 +8,10 @@ export interface FileUploadProps {
   name: string;
   onChange: (file: File | null) => void;
   accept?: string;
-  preview?: { name: string; url: string } | null;
+  preview?: string | File | { name: string; url: string } | null; // Add string and File types
   maxSize?: number;
   circularPreview?: boolean;
-  disabled?: boolean; // Add disabled prop
+  disabled?: boolean;
 }
 
 export const FileUpload = ({

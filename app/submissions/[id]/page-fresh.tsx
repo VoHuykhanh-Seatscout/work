@@ -42,7 +42,12 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useRouter } from 'next/navigation'
 
 interface SubmissionDetailPageProps {
-  params: { id: string }
+  params: {
+    id: string
+  }
+  searchParams?: {
+    [key: string]: string | string[] | undefined
+  }
 }
 
 function isSubmissionStatus(status: string | null | undefined): status is SubmissionStatus {
@@ -72,7 +77,7 @@ interface SubmissionContent {
   description?: string
 }
 
-export default function SubmissionDetailPage({ params }: SubmissionDetailPageProps) {
+export default function SubmissionDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter()
   const { data: submission, isLoading, error } = useSubmission(params.id)
 

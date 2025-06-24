@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function NewPassword() {
+function NewPasswordForm() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -30,7 +31,7 @@ export default function NewPassword() {
 
       if (res.ok) {
         setMessage("Password updated successfully!");
-        setTimeout(() => router.push("/login"), 2000); // Redirect after success
+        setTimeout(() => router.push("/login"), 2000);
       } else {
         setMessage(data.error || "Something went wrong!");
       }
@@ -68,5 +69,13 @@ export default function NewPassword() {
         </button>
       </form>
     </div>
+  );
+}
+
+export default function NewPassword() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <NewPasswordForm />
+    </Suspense>
   );
 }

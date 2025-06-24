@@ -612,15 +612,16 @@ export default function CreateSocialEvent() {
               <div>
   <label className="block text-gray-700 mb-1">Additional Media</label>
   <FileUpload
-                  onChange={(file: File | null) => {
-                    // If a file is selected, add it to your additionalMedia array
-                    if (file) {
-                      handleAdditionalMediaChange([...(formData.additionalMedia || []), file]);
-                    }
-                  } }
-                  accept=".pdf,.ppt,.pptx,.mp4,.mov,.jpg,.jpeg,.png"
-                  preview={formData.additionalMedia?.[0]} // Show first file as preview
-                  maxSize={10} name={undefined}  />
+  name="additionalMedia" // Add this required prop
+  onChange={(file: File | null) => {
+    if (file) {
+      handleAdditionalMediaChange([...(formData.additionalMedia || []), file]);
+    }
+  }}
+  accept=".pdf,.ppt,.pptx,.mp4,.mov,.jpg,.jpeg,.png"
+  preview={formData.additionalMedia?.[0]} // Show first file as preview
+  maxSize={10}
+/>
   <p className="text-xs text-gray-500 mt-1">Upload PDFs, presentations, or videos (max 10MB each)</p>
   
   {/* Display all uploaded files */}

@@ -2,12 +2,16 @@ import { Message } from '@prisma/client'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 
+type MessageWithSender = Message & {
+  senderName: string
+}
+
 export default function QandASection({
   competitionId,
   messages,
 }: {
   competitionId: string
-  messages: Message[]
+  messages: MessageWithSender[]
 }) {
   return (
     <div className="mt-8">

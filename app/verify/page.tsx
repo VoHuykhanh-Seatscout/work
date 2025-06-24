@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiCheckCircle, FiAlertCircle, FiLoader, FiAward, FiArrowRight } from "react-icons/fi";
 import { Sword } from "lucide-react";
+import { Suspense } from "react";
 
 // OROA brand colors
 const brandColors = {
@@ -18,7 +19,7 @@ const brandColors = {
   success: "#30D158",
 };
 
-export default function VerifyPage() {
+function VerifyContent() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -313,5 +314,13 @@ export default function VerifyPage() {
         </motion.div>
       </motion.div>
     </div>
+  );
+}
+
+export default function VerifyPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <VerifyContent />
+    </Suspense>
   );
 }
