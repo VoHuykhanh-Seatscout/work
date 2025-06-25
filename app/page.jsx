@@ -185,7 +185,7 @@ export default function Home() {
     <div className="lg:w-1/2 flex items-center justify-center lg:justify-end h-full">
       <div className="relative w-full max-w-[850px] h-[80vh] min-h-[600px]">
         <Image 
-          src="/path58.png" 
+          src="/path58.svg" 
           alt="Student competing with laptop" 
           fill
           className="object-contain object-right drop-shadow-2xl"
