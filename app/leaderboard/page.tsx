@@ -130,7 +130,7 @@ export default function Leaderboard() {
 
       <Navbar />
 
-      {/* Hero Section - Leaderboard */}
+      {/* Hero Section with Enhanced Background */}
 <section className="relative overflow-hidden pt-[1.5rem] min-h-[calc(90vh-4.5rem)]">
   {/* Enhanced Background with Persistent Glow */}
   <div className="absolute inset-0 bg-gradient-to-br from-[#1e145e] via-[#2a1b7a] to-[#3d28a8] overflow-hidden">
@@ -183,25 +183,78 @@ export default function Leaderboard() {
 
   {/* Content Container */}
   <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col lg:flex-row items-center justify-between gap-0">
-    {/* Illustration Column - Left */}
+    {/* Text Column */}
+    <div className="lg:w-1/2 text-left py-12 lg:py-24">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: [0.2, 1, 0.2, 1] }}
+      >
+        <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] lg:text-[4.5rem] xl:text-[5.5rem] font-extrabold text-white leading-[1.1] mb-6 tracking-tight">
+          <span className="block whitespace-nowrap">Win Challenges.</span>
+          <span className="block whitespace-nowrap">Build Skills.</span>
+          <span className="block whitespace-nowrap">Get Noticed.</span>
+        </h1>
+        
+        <motion.p 
+          className="text-lg sm:text-xl lg:text-2xl text-white/80 max-w-xl leading-relaxed mb-12"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+        >
+          A launchpad for ambitious students to win real challenges, earn rewards, and get hired.
+        </motion.p>
+        
+        <motion.div 
+          className="flex flex-col sm:flex-row gap-4 md:gap-6"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+        >
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-3 text-lg"
+          >
+            <span className="text-xl">🚀</span> Start Competing
+          </motion.button>
+          
+          <motion.button
+            whileHover={{ 
+              scale: 1.05,
+              backgroundColor: "#a855f7"
+            }}
+            whileTap={{ scale: 0.98 }}
+            className="bg-purple-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-purple-500 transition-all flex items-center gap-3 text-lg shadow-lg hover:shadow-xl"
+          >
+            <span className="text-xl">🎨</span> View Leaderboard
+          </motion.button>
+        </motion.div>
+      </motion.div>
+    </div>
+    
+    {/* Illustration Column */}
     <motion.div 
-      className="lg:w-1/2 flex items-center justify-center lg:justify-start h-full order-1"
-      initial={{ opacity: 0, x: -40 }}
+      className="lg:w-1/2 flex items-center justify-center lg:justify-end h-full"
+      initial={{ opacity: 0, x: 40 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8, delay: 0.3, ease: [0.2, 1, 0.2, 1] }}
     >
       <div className="relative w-full max-w-[850px] h-[80vh] min-h-[600px]">
         <Image 
-          src="/y.svg" 
-          alt="Leaderboard illustration" 
+          src="/path58.svg" 
+          alt="Student competing with laptop" 
           fill
-          className="object-contain object-left drop-shadow-2xl"
+          className="object-contain object-right drop-shadow-2xl"
           priority
         />
-        {/* Glow Effect */}
+        {/* Persistent Glow Effect */}
         <motion.div 
-          className="absolute inset-0 -right-20 bg-purple-500/20 rounded-full blur-3xl -z-10"
+          className="absolute inset-0 -left-20 bg-purple-500/20 rounded-full blur-3xl -z-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: [0.1, 0.2, 0.1] }}
           transition={{
@@ -212,50 +265,8 @@ export default function Leaderboard() {
         />
       </div>
     </motion.div>
-
-    {/* Text Column - Right */}
-    <div className="lg:w-1/2 flex flex-col items-center text-center py-12 lg:py-24 order-2 px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: [0.2, 1, 0.2, 1] }}
-        className="flex flex-col items-center gap-6"
-      >
-        {/* Updated Title */}
-        <h1 className="text-[6.75rem] font-extrabold text-white leading-tight tracking-tight text-center">
-          Leaderboard
-        </h1>
-        
-        {/* Subheading */}
-        <motion.p 
-          className="text-lg sm:text-xl lg:text-2xl text-white/80 max-w-lg leading-relaxed mb-12"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-        >
-          Join competitions that sharpen your talent and put you on the map.
-        </motion.p>
-        
-        {/* CTA Button */}
-        <motion.button
-          whileHover={{ 
-            scale: 1.08,
-            boxShadow: "0 12px 36px rgba(255,214,0,0.5)"
-          }}
-          whileTap={{ 
-            scale: 0.97,
-            boxShadow: "0 4px 12px rgba(255,214,0,0.2)"
-          }}
-          className="mt-[-1.5rem] flex items-center gap-3 bg-yellow-400 hover:bg-yellow-300 text-black font-extrabold px-12 py-5 rounded-2xl shadow-lg transition-all duration-300 text-2xl"
-        >
-          🚀 LET'S GO NOW
-        </motion.button>
-      </motion.div>
-    </div>
   </div>
-  
+
   {/* Bottom Gradient */}
   <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#1e145e]/80 to-transparent -z-10"></div>
 </section>
