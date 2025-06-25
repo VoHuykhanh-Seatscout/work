@@ -418,50 +418,31 @@ export default function Home() {
   </div>
 </section>
 
-      {/* Enhanced Achievements Section - Compact Layout */}
-<section className="relative py-16 px-4 sm:px-6 bg-white">
+      {/* Simplified Achievements Section */}
+<section className="py-16 px-4 sm:px-6 bg-white">
   <div className="max-w-7xl mx-auto">
     {/* Two Column Layout */}
     <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-stretch">
       {/* Left Column - Illustration with centered CTA */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-between space-y-6"> {/* Reduced spacing */}
-        {/* Larger Illustration */}
-        <motion.div 
-          className="flex items-center justify-center"
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
+      <div className="w-full lg:w-1/2 flex flex-col justify-between space-y-6">
+        {/* Illustration */}
+        <div className="flex items-center justify-center">
           <div className="relative w-full">
             <Image 
               src="/k.png" 
               alt="Creative person using platform" 
-              width={1100}  // Increased size
-              height={825}  // Maintained 4:3 aspect ratio
+              width={1100}
+              height={825}
               className="w-full h-auto object-contain"
               priority
             />
           </div>
-        </motion.div>
+        </div>
 
         {/* Centered CTA Button */}
-        <motion.div
-          className="flex justify-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          viewport={{ once: true }}
-        >
+        <div className="flex justify-center">
           <Link href={session ? "/competitions" : "/signup"}>
-            <motion.button
-              whileHover={{ 
-                scale: 1.05,
-                backgroundColor: brandColors.primary,
-                color: 'white',
-                boxShadow: `0 12px 32px ${brandColors.primary}40`
-              }}
-              whileTap={{ scale: 0.97 }}
+            <button
               className="px-8 py-4 rounded-xl transition-all flex items-center gap-2"
               style={{ 
                 backgroundColor: brandColors.light,
@@ -474,28 +455,21 @@ export default function Home() {
                 {session ? "Join a Challenge" : "Become Part of Our Community"}
               </span>
               <ArrowRight className="w-6 h-6" />
-            </motion.button>
+            </button>
           </Link>
-        </motion.div>
+        </div>
       </div>
 
       {/* Right Column - Content */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center">
-        <motion.div 
-          className="mb-8"  // Reduced margin
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
+        <div className="mb-8">
           <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-gray-900">
             Our Achievements
           </h2>
-          
           <p className="text-lg md:text-xl text-gray-700 max-w-xl leading-relaxed">
             We're building a movement. Here's our progress.
           </p>
-        </motion.div>
+        </div>
 
         {/* Stats Cards */}
         {stats === null ? (
@@ -503,7 +477,7 @@ export default function Home() {
             {[1, 2, 3].map((i) => (
               <div 
                 key={i}
-                className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100"  // Smaller padding
+                className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100"
               >
                 <div className="animate-pulse flex items-center gap-4"> 
                   <div className="w-12 h-12 rounded-xl bg-gray-200"></div>  
@@ -518,13 +492,9 @@ export default function Home() {
         ) : (
           <div className="space-y-6">  
             {statsData.map((stat, index) => (
-              <motion.div
+              <div
                 key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 transition-all hover:shadow-md"
+                className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md"
               >
                 <div className="flex items-center gap-4">  
                   <div
@@ -539,17 +509,12 @@ export default function Home() {
                   
                   <div>
                     <div className="text-3xl font-extrabold tracking-tight" style={{ color: stat.color }}>
-                      <CountUp
-                        end={parseInt(stat.value)}
-                        duration={2.5}
-                        delay={index * 0.2}
-                        suffix={stat.value.includes('+') ? '+' : ''}
-                      />
+                      {stat.value}
                     </div>
                     <p className="text-gray-600 text-md font-medium">{stat.label}</p>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         )}
