@@ -560,9 +560,9 @@ export default function Home() {
 
       
 
-      {/* Final CTA - Purple Background Matching HeroSection */}
-<section className="py-24 px-6 relative overflow-hidden">
-  {/* Purple gradient background matching HeroSection */}
+      {/* Final CTA - Compact Version */}
+<section className="py-16 px-6 relative overflow-hidden min-h-[400px] flex items-center">
+  {/* Gradient background */}
   <div className="absolute inset-0 bg-gradient-to-br from-[#1e145e] via-[#2a1b7a] to-[#3d28a8] overflow-hidden">
     {/* Glow Animation */}
     <motion.div 
@@ -579,28 +579,28 @@ export default function Home() {
       }}
     />
     
-    {/* Floating Particles */}
-    {[...Array(20)].map((_, i) => (
+    {/* Floating Particles (reduced quantity) */}
+    {[...Array(12)].map((_, i) => (
       <motion.div
         key={i}
         className="absolute rounded-full bg-white/10"
         style={{
-          width: `${Math.random() * 8 + 2}px`,
-          height: `${Math.random() * 8 + 2}px`,
+          width: `${Math.random() * 6 + 2}px`,
+          height: `${Math.random() * 6 + 2}px`,
           left: `${Math.random() * 100}%`,
           top: `${Math.random() * 100}%`,
         }}
         animate={{
-          x: [0, (Math.random() - 0.5) * 60],
-          y: [0, (Math.random() - 0.5) * 60],
-          opacity: [0.1, 0.3, 0.1],
+          x: [0, (Math.random() - 0.5) * 40],
+          y: [0, (Math.random() - 0.5) * 40],
+          opacity: [0.1, 0.2, 0.1],
         }}
         transition={{
-          duration: Math.random() * 30 + 15,
+          duration: Math.random() * 20 + 10,
           repeat: Infinity,
           repeatType: "reverse",
           ease: "easeInOut",
-          delay: Math.random() * 10
+          delay: Math.random() * 5
         }}
       />
     ))}
@@ -608,21 +608,35 @@ export default function Home() {
 
   {/* Content */}
   <motion.div
-    initial={{ opacity: 0, y: 30 }}
+    initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8 }}
+    transition={{ duration: 0.6 }}
     viewport={{ once: true }}
     className="max-w-4xl mx-auto text-center relative z-10"
   >
-    <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white tracking-tight">
-      Ready to begin your heroic journey?
-    </h2>
-    
-    <p className="text-lg text-white/90 mb-8 max-w-xl mx-auto leading-relaxed tracking-tight">
-  Join a community of passionate students building the future through innovation and collaboration.
-</p>
-    
-    <div className="flex flex-wrap justify-center gap-4">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4 }}
+      viewport={{ once: true }}
+      className="mb-8"
+    >
+      <h2 className="text-4xl md:text-5xl font-extrabold mb-6 text-white leading-tight">
+        Ready to begin your heroic journey?
+      </h2>
+      
+      <p className="text-lg text-white/85 max-w-xl mx-auto">
+        Join a community of passionate students building the future through innovation and collaboration.
+      </p>
+    </motion.div>
+
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      viewport={{ once: true }}
+      className="flex flex-wrap justify-center gap-4"
+    >
       <Link href="/competitions">
         <motion.button
           whileHover={{ 
@@ -704,7 +718,7 @@ export default function Home() {
           </motion.button>
         </Link>
       )}
-    </div>
+    </motion.div>
   </motion.div>
 </section>
       {/* Footer - Clean Apple-like design with all black text */}
