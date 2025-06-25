@@ -560,7 +560,7 @@ export default function Home() {
 
       
 
-      {/* Final CTA - Compact Version */}
+      {/* Final CTA - Compact Essential Version */}
 <section className="py-16 px-6 relative overflow-hidden min-h-[400px] flex items-center">
   {/* Gradient background */}
   <div className="absolute inset-0 bg-gradient-to-br from-[#1e145e] via-[#2a1b7a] to-[#3d28a8] overflow-hidden">
@@ -579,7 +579,7 @@ export default function Home() {
       }}
     />
     
-    {/* Floating Particles (reduced quantity) */}
+    {/* Floating Particles */}
     {[...Array(12)].map((_, i) => (
       <motion.div
         key={i}
@@ -621,12 +621,13 @@ export default function Home() {
       viewport={{ once: true }}
       className="mb-8"
     >
-      <h2 className="text-4xl md:text-5xl font-extrabold mb-6 text-white leading-tight">
-        Ready to begin your heroic journey?
+      <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-white leading-tight">
+        <span className="block">Ready to begin your</span>
+        <span className="block text-yellow-400">heroic journey?</span>
       </h2>
       
       <p className="text-lg text-white/85 max-w-xl mx-auto">
-        Join a community of passionate students building the future through innovation and collaboration.
+        Join a community of passionate students building the future
       </p>
     </motion.div>
 
@@ -635,27 +636,26 @@ export default function Home() {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
       viewport={{ once: true }}
-      className="flex flex-wrap justify-center gap-4"
+      className="flex flex-wrap justify-center gap-3"
     >
       <Link href="/competitions">
         <motion.button
           whileHover={{ 
-            scale: 1.05, 
-            boxShadow: "0 12px 32px rgba(255,255,255,0.4)",
-            y: -3
+            scale: 1.03, 
+            y: -2
           }}
           whileTap={{ scale: 0.97 }}
-          className="px-8 py-4 text-lg font-medium bg-white rounded-xl hover:bg-gray-100 transition-all duration-300 flex items-center gap-2"
+          className="px-6 py-3 text-base font-medium bg-white rounded-lg hover:bg-gray-50 transition-all flex items-center gap-2"
           style={{ 
             color: brandColors.primary,
-            boxShadow: '0 8px 24px rgba(255,255,255,0.3)'
+            boxShadow: '0 4px 12px rgba(255,255,255,0.2)'
           }}
         >
           <span>Browse Challenges</span>
           <motion.span
-            animate={{ x: [0, 4, 0] }}
+            animate={{ x: [0, 2, 0] }}
             transition={{ 
-              duration: 1.5,
+              duration: 1.2,
               repeat: Infinity
             }}
           >
@@ -667,13 +667,12 @@ export default function Home() {
       {!session ? (
         <motion.button
           whileHover={{ 
-            scale: 1.05, 
-            backgroundColor: brandColors.dark,
-            y: -3
+            scale: 1.03,
+            y: -2
           }}
           whileTap={{ scale: 0.97 }}
           onClick={() => signIn("google")}
-          className="px-8 py-4 text-lg font-medium rounded-xl border-2 border-white transition-all duration-300 flex items-center gap-2"
+          className="px-6 py-3 text-base font-medium rounded-lg border-2 border-white transition-all flex items-center gap-2"
           style={{ 
             color: 'white',
             backdropFilter: 'blur(4px)'
@@ -681,9 +680,9 @@ export default function Home() {
         >
           <span>Sign Up Free</span>
           <motion.span
-            animate={{ rotate: [0, 10, -10, 0] }}
+            animate={{ rotate: [0, 8, -8, 0] }}
             transition={{ 
-              duration: 1.5,
+              duration: 1.2,
               repeat: Infinity
             }}
           >
@@ -691,29 +690,28 @@ export default function Home() {
           </motion.span>
         </motion.button>
       ) : (
-        <Link href="/competitions">
+        <Link href="/profile">
           <motion.button
             whileHover={{ 
-              scale: 1.05, 
-              backgroundColor: brandColors.dark,
-              y: -3
+              scale: 1.03,
+              y: -2
             }}
             whileTap={{ scale: 0.97 }}
-            className="px-8 py-4 text-lg font-medium rounded-xl border-2 border-white transition-all duration-300 flex items-center gap-2"
+            className="px-6 py-3 text-base font-medium rounded-lg border-2 border-white transition-all flex items-center gap-2"
             style={{ 
               color: 'white',
               backdropFilter: 'blur(4px)'
             }}
           >
-            <span>Go to Dashboard</span>
+            <span>View Profile</span>
             <motion.span
-              animate={{ rotate: [0, 10, -10, 0] }}
+              animate={{ rotate: [0, 8, -8, 0] }}
               transition={{ 
-                duration: 1.5,
+                duration: 1.2,
                 repeat: Infinity
               }}
             >
-              🚀
+              ✨
             </motion.span>
           </motion.button>
         </Link>
