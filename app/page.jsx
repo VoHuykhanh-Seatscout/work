@@ -146,46 +146,59 @@ export default function Home() {
 
       <Navbar />
 
-      {/* Simplified Hero Section */}
-<section className="relative min-h-[90vh] bg-gradient-to-br from-[#1e145e] via-[#2a1b7a] to-[#3d28a8]">
-  {/* Background Glow */}
-  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-purple-400/10 opacity-20" />
-  
+      {/* Hero Section - Simplified with Original Positioning */}
+<section className="relative overflow-hidden pt-[1.5rem] min-h-[calc(90vh-4.5rem)]">
+  {/* Background */}
+  <div className="absolute inset-0 bg-gradient-to-br from-[#1e145e] via-[#2a1b7a] to-[#3d28a8] overflow-hidden">
+    {/* Subtle Glow */}
+    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-purple-400/10 opacity-20" />
+  </div>
+
   {/* Content Container */}
-  <div className="container mx-auto px-4 h-full flex flex-col lg:flex-row items-center">
-    {/* Text Content */}
-    <div className="lg:w-1/2 py-12 lg:py-24">
-      <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
-        <span className="block">Win Challenges.</span>
-        <span className="block">Build Skills.</span>
-        <span className="block">Get Noticed.</span>
-      </h1>
-      
-      <p className="text-xl text-white/80 mb-8 max-w-lg">
-        A launchpad for ambitious students to win real challenges, earn rewards, and get hired.
-      </p>
-      
-      <div className="flex flex-col sm:flex-row gap-4">
-        <button className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-4 rounded-xl transition-all">
-          🚀 Start Competing
-        </button>
-        <button className="bg-purple-600 hover:bg-purple-500 text-white font-bold px-8 py-4 rounded-xl transition-all">
-          🎨 View Leaderboard
-        </button>
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col lg:flex-row items-center justify-between gap-0">
+    {/* Text Column */}
+    <div className="lg:w-1/2 text-left py-12 lg:py-24">
+      <div>
+        <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] lg:text-[4.5rem] xl:text-[5.5rem] font-extrabold text-white leading-[1.1] mb-6 tracking-tight">
+          <span className="block whitespace-nowrap">Win Challenges.</span>
+          <span className="block whitespace-nowrap">Build Skills.</span>
+          <span className="block whitespace-nowrap">Get Noticed.</span>
+        </h1>
+        
+        <p className="text-lg sm:text-xl lg:text-2xl text-white/80 max-w-xl leading-relaxed mb-12">
+          A launchpad for ambitious students to win real challenges, earn rewards, and get hired.
+        </p>
+        
+        <div className="flex flex-col sm:flex-row gap-4 md:gap-6">
+          <button className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-3 text-lg">
+            <span className="text-xl">🚀</span> Start Competing
+          </button>
+          
+          <button className="bg-purple-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-purple-500 transition-all flex items-center gap-3 text-lg shadow-lg hover:shadow-xl">
+            <span className="text-xl">🎨</span> View Leaderboard
+          </button>
+        </div>
       </div>
     </div>
     
-    {/* Image */}
-    <div className="lg:w-1/2 relative h-[60vh] min-h-[400px]">
-      <Image 
-        src="/path58.png" 
-        alt="Student competing" 
-        fill
-        className="object-contain object-right"
-        priority
-      />
+    {/* Illustration Column */}
+    <div className="lg:w-1/2 flex items-center justify-center lg:justify-end h-full">
+      <div className="relative w-full max-w-[850px] h-[80vh] min-h-[600px]">
+        <Image 
+          src="/path58.png" 
+          alt="Student competing with laptop" 
+          fill
+          className="object-contain object-right drop-shadow-2xl"
+          priority
+        />
+        {/* Glow Effect */}
+        <div className="absolute inset-0 -left-20 bg-purple-500/20 rounded-full blur-3xl -z-10" />
+      </div>
     </div>
   </div>
+
+  {/* Bottom Gradient */}
+  <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#1e145e]/80 to-transparent -z-10"></div>
 </section>
 
       {/* How It Works Section - Enhanced with Brand Colors */}
