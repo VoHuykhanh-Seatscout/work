@@ -560,117 +560,39 @@ export default function Home() {
 
       
 
-      {/* Final CTA - Compact Essential Version */}
-<section className="py-16 px-6 relative overflow-hidden min-h-[400px] flex items-center">
-  {/* Gradient background */}
-  <div className="absolute inset-0 bg-gradient-to-br from-[#1e145e] via-[#2a1b7a] to-[#3d28a8] overflow-hidden">
-    {/* Glow Animation */}
-    <motion.div 
-      className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-purple-400/10"
-      initial={{ opacity: 0 }}
-      animate={{ 
-        opacity: [0.1, 0.2, 0.1],
-        backgroundPosition: ['0% 0%', '100% 100%', '0% 0%']
-      }}
-      transition={{
-        duration: 15,
-        repeat: Infinity,
-        ease: "linear"
-      }}
-    />
-    
-    {/* Floating Particles */}
-    {[...Array(12)].map((_, i) => (
-      <motion.div
-        key={i}
-        className="absolute rounded-full bg-white/10"
-        style={{
-          width: `${Math.random() * 6 + 2}px`,
-          height: `${Math.random() * 6 + 2}px`,
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`,
-        }}
-        animate={{
-          x: [0, (Math.random() - 0.5) * 40],
-          y: [0, (Math.random() - 0.5) * 40],
-          opacity: [0.1, 0.2, 0.1],
-        }}
-        transition={{
-          duration: Math.random() * 20 + 10,
-          repeat: Infinity,
-          repeatType: "reverse",
-          ease: "easeInOut",
-          delay: Math.random() * 5
-        }}
-      />
-    ))}
-  </div>
-
-  {/* Content */}
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6 }}
-    viewport={{ once: true }}
-    className="max-w-4xl mx-auto text-center relative z-10"
-  >
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.4 }}
-      viewport={{ once: true }}
-      className="mb-8"
-    >
+      {/* Simplified CTA Section */}
+<section className="py-16 px-6 bg-gradient-to-br from-[#1e145e] via-[#2a1b7a] to-[#3d28a8] min-h-[400px] flex items-center">
+  <div className="max-w-4xl mx-auto text-center">
+    <div className="mb-8">
+      <div className="inline-flex items-center gap-2 bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium mb-3">
+        <span>Ready to climb?</span>
+      </div>
+      
       <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-white leading-tight">
-        <span className="block">Ready to begin your</span>
-        <span className="block text-yellow-400">heroic journey?</span>
+        <span className="block">Prove Your Skills,</span>
+        <span className="block text-yellow-400">Climb the Leaderboard</span>
       </h2>
       
       <p className="text-lg text-white/85 max-w-xl mx-auto">
-        Join a community of passionate students building the future
+        Join competitions that challenge your abilities and talent
       </p>
-    </motion.div>
+    </div>
 
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-      viewport={{ once: true }}
-      className="flex flex-wrap justify-center gap-3"
-    >
+    <div className="flex flex-wrap justify-center gap-3">
       <Link href="/competitions">
-        <motion.button
-          whileHover={{ 
-            scale: 1.03, 
-            y: -2
-          }}
-          whileTap={{ scale: 0.97 }}
-          className="px-6 py-3 text-base font-medium bg-white rounded-lg hover:bg-gray-50 transition-all flex items-center gap-2"
+        <button className="px-6 py-3 text-base font-medium bg-white rounded-lg hover:bg-gray-50 transition-all flex items-center gap-2"
           style={{ 
             color: brandColors.primary,
             boxShadow: '0 4px 12px rgba(255,255,255,0.2)'
           }}
         >
           <span>Browse Challenges</span>
-          <motion.span
-            animate={{ x: [0, 2, 0] }}
-            transition={{ 
-              duration: 1.2,
-              repeat: Infinity
-            }}
-          >
-            →
-          </motion.span>
-        </motion.button>
+          <span>→</span>
+        </button>
       </Link>
       
       {!session ? (
-        <motion.button
-          whileHover={{ 
-            scale: 1.03,
-            y: -2
-          }}
-          whileTap={{ scale: 0.97 }}
+        <button
           onClick={() => signIn("google")}
           className="px-6 py-3 text-base font-medium rounded-lg border-2 border-white transition-all flex items-center gap-2"
           style={{ 
@@ -679,24 +601,11 @@ export default function Home() {
           }}
         >
           <span>Sign Up Free</span>
-          <motion.span
-            animate={{ rotate: [0, 8, -8, 0] }}
-            transition={{ 
-              duration: 1.2,
-              repeat: Infinity
-            }}
-          >
-            ✨
-          </motion.span>
-        </motion.button>
+          <span>✨</span>
+        </button>
       ) : (
         <Link href="/profile">
-          <motion.button
-            whileHover={{ 
-              scale: 1.03,
-              y: -2
-            }}
-            whileTap={{ scale: 0.97 }}
+          <button
             className="px-6 py-3 text-base font-medium rounded-lg border-2 border-white transition-all flex items-center gap-2"
             style={{ 
               color: 'white',
@@ -704,20 +613,12 @@ export default function Home() {
             }}
           >
             <span>View Profile</span>
-            <motion.span
-              animate={{ rotate: [0, 8, -8, 0] }}
-              transition={{ 
-                duration: 1.2,
-                repeat: Infinity
-              }}
-            >
-              ✨
-            </motion.span>
-          </motion.button>
+            <span>✨</span>
+          </button>
         </Link>
       )}
-    </motion.div>
-  </motion.div>
+    </div>
+  </div>
 </section>
       {/* Footer - Clean Apple-like design with all black text */}
 <footer className="bg-white border-t border-gray-100 py-12 px-6">
