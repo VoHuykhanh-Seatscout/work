@@ -148,40 +148,82 @@ export default function Home() {
 
       {/* Hero Section - Simplified with Original Positioning */}
 <section className="relative overflow-hidden pt-[1.5rem] min-h-[calc(90vh-4.5rem)]">
-  {/* Background */}
+  {/* Enhanced Background with Glow + Grid */}
   <div className="absolute inset-0 bg-gradient-to-br from-[#1e145e] via-[#2a1b7a] to-[#3d28a8] overflow-hidden">
-    {/* Subtle Glow */}
-    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-purple-400/10 opacity-20" />
+    
+    {/* Subtle glow */}
+    <motion.div 
+      className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-purple-400/10"
+      initial={{ opacity: 0 }}
+      animate={{ 
+        opacity: [0.1, 0.2, 0.1],
+        backgroundPosition: ['0% 0%', '100% 100%', '0% 0%']
+      }}
+      transition={{
+        duration: 15,
+        repeat: Infinity,
+        ease: "linear"
+      }}
+    />
+
+    {/* Grid pattern */}
+    <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 bg-[length:40px_40px] bg-[linear-gradient(to_right,rgba(255,255,255,0.3)_1px,transparent_0.5px),linear-gradient(to_bottom,rgba(255,255,255,0.3)_1px,transparent_1px)]"></div>
+    </div>
+
+    {/* Floating particles */}
+    {[...Array(40)].map((_, i) => (
+      <motion.div
+        key={i}
+        className="absolute rounded-full bg-white/10"
+        style={{
+          width: `${Math.random() * 8 + 2}px`,
+          height: `${Math.random() * 8 + 2}px`,
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+        }}
+        animate={{
+          x: [0, (Math.random() - 0.5) * 60],
+          y: [0, (Math.random() - 0.5) * 60],
+          opacity: [0.1, 0.3, 0.1],
+        }}
+        transition={{
+          duration: Math.random() * 30 + 15,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: "easeInOut",
+          delay: Math.random() * 10
+        }}
+      />
+    ))}
   </div>
 
-  {/* Content Container */}
+  {/* Content */}
   <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col lg:flex-row items-center justify-between gap-0">
-    {/* Text Column */}
+    {/* Text */}
     <div className="lg:w-1/2 text-left py-12 lg:py-24">
-      <div>
-        <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] lg:text-[4.5rem] xl:text-[5.5rem] font-extrabold text-white leading-[1.1] mb-6 tracking-tight">
-          <span className="block whitespace-nowrap">Win Challenges.</span>
-          <span className="block whitespace-nowrap">Build Skills.</span>
-          <span className="block whitespace-nowrap">Get Noticed.</span>
-        </h1>
-        
-        <p className="text-lg sm:text-xl lg:text-2xl text-white/80 max-w-xl leading-relaxed mb-12">
-          A launchpad for ambitious students to win real challenges, earn rewards, and get hired.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-4 md:gap-6">
-          <button className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-3 text-lg">
-            <span className="text-xl">🚀</span> Start Competing
-          </button>
-          
-          <button className="bg-purple-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-purple-500 transition-all flex items-center gap-3 text-lg shadow-lg hover:shadow-xl">
-            <span className="text-xl">🎨</span> View Leaderboard
-          </button>
-        </div>
+      <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] lg:text-[4.5rem] xl:text-[5.5rem] font-extrabold text-white leading-[1.1] mb-6 tracking-tight">
+        <span className="block whitespace-nowrap">Win Challenges.</span>
+        <span className="block whitespace-nowrap">Build Skills.</span>
+        <span className="block whitespace-nowrap">Get Noticed.</span>
+      </h1>
+
+      <p className="text-lg sm:text-xl lg:text-2xl text-white/80 max-w-xl leading-relaxed mb-12">
+        A launchpad for ambitious students to win real challenges, earn rewards, and get hired.
+      </p>
+
+      <div className="flex flex-col sm:flex-row gap-4 md:gap-6">
+        <button className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-3 text-lg">
+          <span className="text-xl">🚀</span> Start Competing
+        </button>
+
+        <button className="bg-purple-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-purple-500 transition-all flex items-center gap-3 text-lg shadow-lg hover:shadow-xl">
+          <span className="text-xl">🎨</span> View Leaderboard
+        </button>
       </div>
     </div>
-    
-    {/* Illustration Column */}
+
+    {/* Illustration */}
     <div className="lg:w-1/2 flex items-center justify-center lg:justify-end h-full">
       <div className="relative w-full max-w-[850px] h-[80vh] min-h-[600px]">
         <Image 
@@ -191,15 +233,15 @@ export default function Home() {
           className="object-contain object-right drop-shadow-2xl"
           priority
         />
-        {/* Glow Effect */}
         <div className="absolute inset-0 -left-20 bg-purple-500/20 rounded-full blur-3xl -z-10" />
       </div>
     </div>
   </div>
 
-  {/* Bottom Gradient */}
+  {/* Bottom gradient */}
   <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#1e145e]/80 to-transparent -z-10"></div>
 </section>
+
 
       {/* How It Works Section - Enhanced with Brand Colors */}
 <section className="bg-white py-16 px-4">
