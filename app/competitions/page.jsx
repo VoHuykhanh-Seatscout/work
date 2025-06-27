@@ -456,116 +456,63 @@ function formatDate(date) {
         {/* Bottom Gradient */}
         <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#1e145e]/80 to-transparent -z-10"></div>
       </section>
-      {/* Events Section */}
+
+      {/* Simplified Events Section */}
 <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-16 pt-20 bg-white" id="events">
-  {/* Section Header with Black Title */}
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-12">
-    <div className="text-center">
-      <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold text-black">
-        Upcoming Challenges & Events
-      </h2>
-      <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
-        Discover exciting competitions and talks to showcase your skills
-      </p>
-    </div>
+  {/* Section Header */}
+  <div className="text-center mb-12">
+    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black">
+      Upcoming Challenges & Events
+    </h2>
+    <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+      Discover exciting competitions and talks to showcase your skills
+    </p>
   </div>
 
-  {/* Loading state - Sleeker animation */}
+  {/* Loading State */}
   {loading && (
     <div className="flex flex-col items-center justify-center py-16">
-      <motion.div
-        animate={{ 
-          rotate: 360,
-          scale: [1, 1.1, 1],
-        }}
-        transition={{ 
-          rotate: { 
-            duration: 1.5, 
-            repeat: Infinity, 
-            ease: "linear" 
-          },
-          scale: { 
-            duration: 1.2, 
-            repeat: Infinity, 
-            repeatType: "mirror" 
-          }
-        }}
-        className="w-16 h-16 mb-5 rounded-full border-3 border-t-transparent border-yellow-400"
-      />
-      <motion.p
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="text-xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500"
-      >
+      <div className="w-16 h-16 mb-5 rounded-full border-4 border-t-transparent border-yellow-400 animate-spin" />
+      <p className="text-xl font-medium text-yellow-500">
         Loading events...
-      </motion.p>
+      </p>
     </div>
   )}
 
-  {/* Rest of your existing events grid code remains the same */}
+  {/* Events Grid */}
   {!loading && !error && (
     <>
       {events.length > 0 ? (
         <div className="relative">
-          {/* Subtle glow effect */}
-          <div className="absolute -top-16 -left-16 w-72 h-72 rounded-full bg-purple-500/10 blur-xl -z-10" />
-          
-          {/* Compact horizontal scroll */}
-          <div className="overflow-x-auto pb-4 scrollbar-hide">
-            <div className="flex gap-8 w-max min-w-full py-2">
+          {/* Horizontal Scroll Container */}
+          <div className="overflow-x-auto pb-4">
+            <div className="flex gap-6 w-max min-w-full py-2">
               {events.map((event) => (
                 <Link 
                   key={event.id} 
                   href={`/${event.type === 'talkshow' ? 'talkshows' : 'competitions'}/${event.id}`}
-                  className="flex-shrink-0 w-[80vw] sm:w-[400px]"
+                  className="flex-shrink-0 w-[300px] sm:w-[350px]"
                 >
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4 }}
-                    whileHover={{ 
-                      y: -6,
-                      boxShadow: "0 12px 28px -5px rgba(255, 214, 0, 0.2)"
-                    }}
-                    className="cursor-pointer h-full rounded-xl overflow-hidden bg-gradient-to-br from-[#1e145e]/10 to-[#3d28a8]/10 border border-white/10 backdrop-blur-sm"
-                  >
+                  <div className="cursor-pointer h-full rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow">
                     {/* Card content */}
-                    <div className="relative z-10 h-full">
+                    <div className="h-full">
                       {renderEventCard(event)}
                     </div>
-                  </motion.div>
+                  </div>
                 </Link>
               ))}
             </div>
           </div>
           
-          {/* Minimal scroll hint */}
-          <div className="text-center mt-4">
-            <span className="inline-block px-4 py-1.5 text-xs text-white/70 bg-white/5 rounded-full">
-              ← Scroll to explore →
-            </span>
+          {/* Scroll hint */}
+          <div className="text-center mt-4 text-sm text-gray-500">
+            ← Scroll to explore →
           </div>
         </div>
       ) : (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-center py-16 relative"
-        >
-          {/* Clean empty state */}
+        <div className="text-center py-16">
           <div className="max-w-md mx-auto">
-            <motion.div
-              animate={{
-                y: [0, -10, 0],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="w-44 h-44 relative mb-8 mx-auto"
-            >
+            <div className="w-44 h-44 relative mb-8 mx-auto">
               <Image 
                 src="/empty-events.svg" 
                 alt="No events"
@@ -573,22 +520,18 @@ function formatDate(date) {
                 className="object-contain opacity-90"
                 priority
               />
-            </motion.div>
-            <h3 className="text-2xl font-bold mb-4 text-white">
+            </div>
+            <h3 className="text-2xl font-bold mb-4 text-gray-800">
               No events available
             </h3>
-            <p className="text-white/70 mb-8 text-lg">
+            <p className="text-gray-600 mb-8">
               Check back soon for upcoming competitions and talks
             </p>
-            <motion.button
-              whileHover={{ scale: 1.03, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
-              whileTap={{ scale: 0.98 }}
-              className="px-8 py-3 rounded-lg text-base font-medium bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-sm transition-colors"
-            >
+            <button className="px-6 py-2 rounded-lg font-medium bg-gray-100 hover:bg-gray-200 transition-colors">
               Notify Me
-            </motion.button>
+            </button>
           </div>
-        </motion.div>
+        </div>
       )}
     </>
   )}
