@@ -278,30 +278,39 @@ const renderEventCard = (event) => {
       className="bg-white rounded-xl overflow-hidden flex flex-col h-full border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02]"
     >
       {/* Image with Status Badge */}
-      <div className="relative w-full aspect-video overflow-hidden">
-        <Image
-          src={event.coverImage || '/default-coverImage.png'}
-          alt={title}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
-        
-        {/* Status Pill */}
-        <div className={`absolute top-3 left-3 z-20 px-2.5 py-1 rounded-full text-xs font-semibold ${
-          statusColor === 'purple' ? 'bg-purple-100 text-purple-800' :
-          statusColor === 'red' ? 'bg-red-100 text-red-800' :
-          statusColor === 'green' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-        }`}>
-          {statusText}
-        </div>
-        
-        {/* Event Type Icon */}
-        <div className="absolute top-3 right-3 z-20 p-1.5 rounded-full bg-black/50 text-white backdrop-blur-sm">
-          {isVirtual ? '🌐' : '📍'}
-        </div>
-      </div>
+      <div className="relative w-full aspect-video bg-gray-100 overflow-hidden">
+  {/* Fallback background color shows if image fails to load */}
+  {event.coverImage ? (
+    <Image
+      src={event.coverImage}
+      alt={title}
+      fill
+      className="object-cover"
+      priority
+    />
+  ) : (
+    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-200 to-gray-300">
+      <span className="text-gray-500 text-lg font-medium">No Image</span>
+    </div>
+  )}
+  
+  {/* Dark overlay */}
+  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+  
+  {/* Status Pill */}
+  <div className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold ${
+    statusColor === 'purple' ? 'bg-purple-100 text-purple-800' :
+    statusColor === 'red' ? 'bg-red-100 text-red-800' :
+    statusColor === 'green' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+  }`}>
+    {statusText}
+  </div>
+  
+  {/* Event Type Icon - Simplified */}
+  <div className="absolute top-3 right-3 p-1.5 rounded-full bg-black/50 text-white">
+    {isVirtual ? '🌐' : '📍'}
+  </div>
+</div>
       
       {/* Card Content */}
       <div className="p-5 flex flex-col flex-grow">
