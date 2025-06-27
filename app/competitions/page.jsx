@@ -267,93 +267,63 @@ const renderEventCard = (event) => {
     statusColor = daysUntil <= 3 ? 'red' : 'green';
   }
 
-  // Fallback content handling
+  // Fallback content
   const title = event.title?.trim() || 'Upcoming Competition';
   const description = event.description?.trim() || 'Compete to test your skills and win rewards.';
-  const isVirtual = event.location === 'Virtual';
 
   return (
-    <motion.div
-      key={event.id}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      whileHover={{ 
-        scale: 1.02,
-        boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)",
-      }}
-      className="bg-white rounded-xl overflow-hidden flex flex-col h-full border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200"
-    >
+    <div className="bg-white rounded-lg overflow-hidden flex flex-col h-full border border-gray-200 shadow-sm hover:shadow-md transition-all">
       {/* Image with Status Badge */}
       <div className="relative w-full aspect-video overflow-hidden">
         <Image
           src={event.coverImage || '/default-coverImage.png'}
           alt={title}
           fill
-          className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
-          priority
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
         
-        {/* Status Pill */}
-        <div className={`absolute top-3 left-3 z-20 px-2.5 py-1 rounded-full text-xs font-semibold ${
+        {/* Status Badge */}
+        <div className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold ${
           statusColor === 'purple' ? 'bg-purple-100 text-purple-800' :
           statusColor === 'red' ? 'bg-red-100 text-red-800' :
           statusColor === 'green' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
         }`}>
           {statusText}
         </div>
-        
-        {/* Event Type Icon */}
-        <div className="absolute top-3 right-3 z-20 p-1.5 rounded-full bg-black/50 text-white backdrop-blur-sm">
-          {isVirtual ? '🌐' : '📍'}
-        </div>
       </div>
       
       {/* Card Content */}
-      <div className="p-5 flex flex-col flex-grow">
-        {/* Title */}
+      <div className="p-4 flex flex-col flex-grow">
         <h2 className="text-lg font-bold mb-2 line-clamp-1 text-gray-900">
           {title}
         </h2>
         
-        {/* Meta Tags */}
-        <div className="flex flex-wrap items-center gap-2 mb-3">
-          <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-purple-50 text-purple-700 border border-purple-100">
-            {event.type === "competition" ? "🏆 Competition" : "🎤 Event"}
-          </span>
-        </div>
+        {/* Event Type */}
+        <span className="inline-block px-2 py-1 mb-3 rounded-md text-xs font-medium bg-purple-50 text-purple-700">
+          {event.type === "competition" ? "🏆 Competition" : "🎤 Event"}
+        </span>
         
-        {/* Description */}
-        <p className="text-gray-600 text-sm line-clamp-2 mb-4 leading-relaxed min-h-[3rem]">
+        <p className="text-gray-600 text-sm line-clamp-2 mb-4">
           {description}
         </p>
         
-        {/* Stats */}
+        {/* Participants Count */}
         {event.type === "competition" && (
-          <div className="mt-auto mb-4 flex items-center text-xs text-gray-500 space-x-4">
+          <div className="mt-auto mb-3 text-xs text-gray-500">
             {event.participantsCount > 0 ? (
-              <span className="flex items-center">
-                <span className="mr-1.5">👥</span> {event.participantsCount} participants
-              </span>
+              <span>👥 {event.participantsCount} participants</span>
             ) : (
               <span className="text-purple-600 font-medium">Be the first to join!</span>
-            )}
-            
-            {event.submissionsCount > 0 && (
-              <span className="flex items-center">
-                <span className="mr-1.5">📩</span> {event.submissionsCount} submissions
-              </span>
             )}
           </div>
         )}
       </div>
       
-      {/* Footer with CTA */}
-      <div className="px-5 pb-5">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-          <div className="text-xs text-gray-500 flex items-center">
-            <span className="mr-1.5">🕒</span>
+      {/* Footer */}
+      <div className="px-4 pb-4">
+        <div className="flex justify-between items-center">
+          <div className="text-xs text-gray-500">
             {status === 'live' ? (
               <span>Ends {formatDate(endDate)}</span>
             ) : status === 'ended' ? (
@@ -363,39 +333,21 @@ const renderEventCard = (event) => {
             )}
           </div>
           
-          <div className="flex gap-2">
-            <Tooltip content="View details" placement="top" delay={200}>
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors flex-shrink-0"
-                aria-label="View details"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </motion.button>
-            </Tooltip>
-            
-            <motion.button
-              onClick={() => handleRegister(event.id)}
-              whileHover={{ scale: 1.03, boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)" }}
-              whileTap={{ scale: 0.98 }}
-              className={`w-full sm:w-auto px-4 py-2.5 rounded-lg text-sm font-semibold text-white ${
-                status === 'ended' ? 'bg-gray-300 cursor-not-allowed' :
-                status === 'live' ? 'bg-purple-600 hover:bg-purple-700' :
-                'bg-green-600 hover:bg-green-700'
-              } transition-all`}
-              disabled={status === 'ended'}
-              aria-label={status === 'ended' ? 'Competition closed' : 'Register'}
-            >
-              {status === 'ended' ? 'Closed' : 
-               event.type === "competition" ? 'Compete Now' : 'Join Now'}
-            </motion.button>
-          </div>
+          <button
+            onClick={() => handleRegister(event.id)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium text-white ${
+              status === 'ended' ? 'bg-gray-300 cursor-not-allowed' :
+              status === 'live' ? 'bg-purple-600 hover:bg-purple-700' :
+              'bg-green-600 hover:bg-green-700'
+            }`}
+            disabled={status === 'ended'}
+          >
+            {status === 'ended' ? 'Closed' : 
+             event.type === "competition" ? 'Compete Now' : 'Join Now'}
+          </button>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
