@@ -270,60 +270,83 @@ const renderEventCard = (event) => {
   // Fallback content
   const title = event.title?.trim() || 'Upcoming Competition';
   const description = event.description?.trim() || 'Compete to test your skills and win rewards.';
+  const isVirtual = event.location === 'Virtual';
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden flex flex-col h-full border border-gray-200 shadow-sm hover:shadow-md transition-all">
+    <div 
+      key={event.id}
+      className="bg-white rounded-xl overflow-hidden flex flex-col h-full border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02]"
+    >
       {/* Image with Status Badge */}
       <div className="relative w-full aspect-video overflow-hidden">
         <Image
           src={event.coverImage || '/default-coverImage.png'}
           alt={title}
           fill
-          className="object-cover"
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
         
-        {/* Status Badge */}
-        <div className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold ${
+        {/* Status Pill */}
+        <div className={`absolute top-3 left-3 z-20 px-2.5 py-1 rounded-full text-xs font-semibold ${
           statusColor === 'purple' ? 'bg-purple-100 text-purple-800' :
           statusColor === 'red' ? 'bg-red-100 text-red-800' :
           statusColor === 'green' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
         }`}>
           {statusText}
         </div>
+        
+        {/* Event Type Icon */}
+        <div className="absolute top-3 right-3 z-20 p-1.5 rounded-full bg-black/50 text-white backdrop-blur-sm">
+          {isVirtual ? '🌐' : '📍'}
+        </div>
       </div>
       
       {/* Card Content */}
-      <div className="p-4 flex flex-col flex-grow">
+      <div className="p-5 flex flex-col flex-grow">
+        {/* Title */}
         <h2 className="text-lg font-bold mb-2 line-clamp-1 text-gray-900">
           {title}
         </h2>
         
-        {/* Event Type */}
-        <span className="inline-block px-2 py-1 mb-3 rounded-md text-xs font-medium bg-purple-50 text-purple-700">
-          {event.type === "competition" ? "🏆 Competition" : "🎤 Event"}
-        </span>
+        {/* Meta Tags */}
+        <div className="flex flex-wrap items-center gap-2 mb-3">
+          <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-purple-50 text-purple-700 border border-purple-100">
+            {event.type === "competition" ? "🏆 Competition" : "🎤 Event"}
+          </span>
+        </div>
         
-        <p className="text-gray-600 text-sm line-clamp-2 mb-4">
+        {/* Description */}
+        <p className="text-gray-600 text-sm line-clamp-2 mb-4 leading-relaxed min-h-[3rem]">
           {description}
         </p>
         
-        {/* Participants Count */}
+        {/* Stats */}
         {event.type === "competition" && (
-          <div className="mt-auto mb-3 text-xs text-gray-500">
+          <div className="mt-auto mb-4 flex items-center text-xs text-gray-500 space-x-4">
             {event.participantsCount > 0 ? (
-              <span>👥 {event.participantsCount} participants</span>
+              <span className="flex items-center">
+                <span className="mr-1.5">👥</span> {event.participantsCount} participants
+              </span>
             ) : (
               <span className="text-purple-600 font-medium">Be the first to join!</span>
+            )}
+            
+            {event.submissionsCount > 0 && (
+              <span className="flex items-center">
+                <span className="mr-1.5">📩</span> {event.submissionsCount} submissions
+              </span>
             )}
           </div>
         )}
       </div>
       
-      {/* Footer */}
-      <div className="px-4 pb-4">
-        <div className="flex justify-between items-center">
-          <div className="text-xs text-gray-500">
+      {/* Footer with CTA */}
+      <div className="px-5 pb-5">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+          <div className="text-xs text-gray-500 flex items-center">
+            <span className="mr-1.5">🕒</span>
             {status === 'live' ? (
               <span>Ends {formatDate(endDate)}</span>
             ) : status === 'ended' ? (
@@ -333,18 +356,30 @@ const renderEventCard = (event) => {
             )}
           </div>
           
-          <button
-            onClick={() => handleRegister(event.id)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium text-white ${
-              status === 'ended' ? 'bg-gray-300 cursor-not-allowed' :
-              status === 'live' ? 'bg-purple-600 hover:bg-purple-700' :
-              'bg-green-600 hover:bg-green-700'
-            }`}
-            disabled={status === 'ended'}
-          >
-            {status === 'ended' ? 'Closed' : 
-             event.type === "competition" ? 'Compete Now' : 'Join Now'}
-          </button>
+          <div className="flex gap-2">
+            <button 
+              className="p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors flex-shrink-0"
+              aria-label="View details"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+            
+            <button
+              onClick={() => handleRegister(event.id)}
+              className={`w-full sm:w-auto px-4 py-2.5 rounded-lg text-sm font-semibold text-white ${
+                status === 'ended' ? 'bg-gray-300 cursor-not-allowed' :
+                status === 'live' ? 'bg-purple-600 hover:bg-purple-700' :
+                'bg-green-600 hover:bg-green-700'
+              } transition-colors`}
+              disabled={status === 'ended'}
+              aria-label={status === 'ended' ? 'Competition closed' : 'Register'}
+            >
+              {status === 'ended' ? 'Closed' : 
+               event.type === "competition" ? 'Compete Now' : 'Join Now'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -408,8 +443,8 @@ function formatDate(date) {
         {/* Bottom Gradient */}
         <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#1e145e]/80 to-transparent -z-10"></div>
       </section>
-
-      {/* Simplified Events Section */}
+      
+      {/* Events Section - Simplified */}
 <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-16 pt-20 bg-white" id="events">
   {/* Section Header */}
   <div className="text-center mb-12">
@@ -431,7 +466,7 @@ function formatDate(date) {
     </div>
   )}
 
-  {/* Events Grid */}
+  {/* Events Content */}
   {!loading && !error && (
     <>
       {events.length > 0 ? (
