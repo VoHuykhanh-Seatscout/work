@@ -130,46 +130,141 @@ export default function Leaderboard() {
 
       <Navbar />
 
-      {/* Simplified Hero Section */}
+      {/* Hero Section with Enhanced Background */}
 <section className="relative overflow-hidden pt-[1.5rem] min-h-[calc(90vh-4.5rem)]">
-  {/* Gradient Background (simplified) */}
+  {/* Enhanced Background with Persistent Glow */}
   <div className="absolute inset-0 bg-gradient-to-br from-[#1e145e] via-[#2a1b7a] to-[#3d28a8] overflow-hidden">
-    {/* Subtle overlay */}
-    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-purple-400/10 opacity-20" />
+    {/* Persistent Glow Animation */}
+    <motion.div 
+      className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-purple-400/10"
+      initial={{ opacity: 0 }}
+      animate={{ 
+        opacity: [0.1, 0.2, 0.1],
+        backgroundPosition: ['0% 0%', '100% 100%', '0% 0%']
+      }}
+      transition={{
+        duration: 15,
+        repeat: Infinity,
+        ease: "linear"
+      }}
+    />
+    
+    {/* Animated Grid Pattern */}
+    <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 bg-[length:40px_40px] bg-[linear-gradient(to_right,rgba(255,255,255,0.3)_1px,transparent_0.5px),linear-gradient(to_bottom,rgba(255,255,255,0.3)_1px,transparent_1px)]"></div>
+    </div>
+    
+    {/* Floating Particles */}
+    {[...Array(40)].map((_, i) => (
+      <motion.div
+        key={i}
+        className="absolute rounded-full bg-white/10"
+        style={{
+          width: `${Math.random() * 8 + 2}px`,
+          height: `${Math.random() * 8 + 2}px`,
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+        }}
+        animate={{
+          x: [0, (Math.random() - 0.5) * 60],
+          y: [0, (Math.random() - 0.5) * 60],
+          opacity: [0.1, 0.3, 0.1],
+        }}
+        transition={{
+          duration: Math.random() * 30 + 15,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: "easeInOut",
+          delay: Math.random() * 10
+        }}
+      />
+    ))}
   </div>
 
   {/* Content Container */}
   <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col lg:flex-row items-center justify-between gap-0">
-    {/* Illustration Column - Left */}
-    <div className="lg:w-1/2 flex items-center justify-center lg:justify-start h-full">
-      <div className="relative w-full max-w-[850px] h-[80vh] min-h-[600px]">
-        <Image 
-          src="/1.svg" 
-          alt="Student competing with laptop" 
-          fill
-          className="object-contain object-left drop-shadow-2xl"
-          priority
-        />
-      </div>
-    </div>
-
-    {/* Text Column - Right */}
-    <div className="lg:w-1/2 flex flex-col items-center text-center py-12 lg:py-24 px-4">
-      <div className="flex flex-col items-center gap-6">
-        <h1 className="text-[6.75rem] font-extrabold text-white leading-tight tracking-tight text-center">
-          <span className="block">Game On.</span>
-          <span className="block text-yellow-400">Skills Out.</span>
+    {/* Text Column */}
+    <div className="lg:w-1/2 text-left py-12 lg:py-24">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: [0.2, 1, 0.2, 1] }}
+      >
+        <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] lg:text-[4.5rem] xl:text-[5.5rem] font-extrabold text-white leading-[1.1] mb-6 tracking-tight">
+          <span className="block whitespace-nowrap">Win Challenges.</span>
+          <span className="block whitespace-nowrap">Build Skills.</span>
+          <span className="block whitespace-nowrap">Get Noticed.</span>
         </h1>
         
-        <p className="text-lg sm:text-xl lg:text-2xl text-white/80 max-w-lg leading-relaxed mb-12">
-          Join competitions that sharpen your talent and put you on the map.
-        </p>
+        <motion.p 
+          className="text-lg sm:text-xl lg:text-2xl text-white/80 max-w-xl leading-relaxed mb-12"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+        >
+          A launchpad for ambitious students to win real challenges, earn rewards, and get hired.
+        </motion.p>
         
-        <button className="mt-[-1.5rem] flex items-center gap-3 bg-yellow-400 hover:bg-yellow-300 text-black font-extrabold px-12 py-5 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-2xl">
-          🚀 LET'S GO NOW
-        </button>
-      </div>
+        <motion.div 
+          className="flex flex-col sm:flex-row gap-4 md:gap-6"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+        >
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-3 text-lg"
+          >
+            <span className="text-xl">🚀</span> Start Competing
+          </motion.button>
+          
+          <motion.button
+            whileHover={{ 
+              scale: 1.05,
+              backgroundColor: "#a855f7"
+            }}
+            whileTap={{ scale: 0.98 }}
+            className="bg-purple-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-purple-500 transition-all flex items-center gap-3 text-lg shadow-lg hover:shadow-xl"
+          >
+            <span className="text-xl">🎨</span> View Leaderboard
+          </motion.button>
+        </motion.div>
+      </motion.div>
     </div>
+    
+    {/* Illustration Column */}
+    <motion.div 
+      className="lg:w-1/2 flex items-center justify-center lg:justify-end h-full"
+      initial={{ opacity: 0, x: 40 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, delay: 0.3, ease: [0.2, 1, 0.2, 1] }}
+    >
+      <div className="relative w-full max-w-[850px] h-[80vh] min-h-[600px]">
+        <Image 
+          src="/path58.svg" 
+          alt="Student competing with laptop" 
+          fill
+          className="object-contain object-right drop-shadow-2xl"
+          priority
+        />
+        {/* Persistent Glow Effect */}
+        <motion.div 
+          className="absolute inset-0 -left-20 bg-purple-500/20 rounded-full blur-3xl -z-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0.1, 0.2, 0.1] }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      </div>
+    </motion.div>
   </div>
 
   {/* Bottom Gradient */}
